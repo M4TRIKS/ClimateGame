@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class GridManager : MonoBehaviour
 {
     
-    
+
     [SerializeField] private int _width, _height;    // Width and height of the grid (set in the Inspector)
 
 
@@ -43,12 +43,11 @@ public class GridManager : MonoBehaviour
            
                 // Generate random TileType (Grass, Water, Sand, Rock)
                 TileType randomType = (TileType)Random.Range(0, 4);
-
+                Vector2Int gridPos = new Vector2Int(x, y);
                 // Initialize tile with that type
-                spawnedTile.Init(randomType);
-
+                spawnedTile.Init(randomType, gridPos);
                 // This allows us to access tiles later by their grid position
-                _tiles[new Vector2(x, y)] = spawnedTile;   // Store the tile in the dictionary
+                _tiles[gridPos] = spawnedTile;  // Store the tile in the dictionary
 
             }
         }
@@ -62,7 +61,7 @@ public class GridManager : MonoBehaviour
 
     // Returns the tile at a specific grid position 
     //easy way to acces this in to the dicctionary
-    public Tile GetTileAtPosition(Vector2 pos)  //<-----I need to call this inside update
+    public Tile GetTileAtPosition(Vector2Int pos)  //<-----I need to call this inside update
     {
         // TryGetValue safely checks if the key exists
         if (_tiles.TryGetValue(pos, out var tile))

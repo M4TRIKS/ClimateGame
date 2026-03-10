@@ -107,6 +107,7 @@ MonoBehaviour:
   _waterColor: {r: 0, g: 0.5338557, b: 1, a: 1}
   _sandColor: {r: 0.5647059, g: 0.6757776, b: 0.017166913, a: 1}
   _rockColor: {r: 0.48235294, g: 0.35666966, b: 0.0627451, a: 1}
+  _pollutionColor: {r: 0.5231924, g: 0, b: 1, a: 1}
   _renderer: {fileID: 2746000139834899107}
   _highlight: {fileID: 3189567700636704219}
 --- !u!61 &4345454863306530347

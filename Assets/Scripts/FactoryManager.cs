@@ -1,5 +1,5 @@
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
+
 
 public class FactoryManager : MonoBehaviour
 { 
@@ -68,13 +68,18 @@ void SpawnFactories()
     int y = Mathf.RoundToInt(mouseWorldPos.y);
     //asks grid manager if there is a tile in the same coordenates
 
-    Tile tile = _gridManager.GetTileAtPosition(new Vector2(x, y));
+    Tile tile = _gridManager.GetTileAtPosition(new Vector2Int(x, y));
     
     //If we found a tile, tell the GameManager to try and build there
 
     if (tile == null) return;
     
-    _gameManager.TryBuild(tile); 
+      bool success = _gameManager.TryBuild(tile);
+
+    if (!success)
+    {
+        Debug.Log("Could not build here");
+    }
 
 }
 }
