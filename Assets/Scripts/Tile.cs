@@ -39,6 +39,9 @@ public class Tile : MonoBehaviour
     public Factory CurrentFactory { get; private set; } // Lets other scripts access the factory on this tile
     private TileType _tileType; // Stores the tile type, SHOULD I MAKE TIS PUBLIc???
 
+    // Pollution system
+    private float _pollutionChance = 0f;
+
 
 
 
@@ -54,7 +57,10 @@ public void ConvertToPollution()
   // Tell the existing factory it has been polluted
     if (_isBuilt && CurrentFactory != null)
     {
-        CurrentFactory.Init(GetTileBonus()); // Since the bonus saves at the begining once the factory is build I need to update it
+        GameManager gm = FindFirstObjectByType<GameManager>();
+        PollutionManager pm = FindFirstObjectByType<PollutionManager>();
+        CurrentFactory.Init(GetTileBonus(), gm, pm);
+       // CurrentFactory.Init(GetTileBonus()); // Since the bonus saves at the begining once the factory is build I need to update it
     }
 
     Debug.Log("Tile has been polluted");
@@ -146,7 +152,10 @@ public void Build()
 
     if (CurrentFactory != null)
     {
-        CurrentFactory.Init(GetTileBonus());
+        GameManager gm = FindFirstObjectByType<GameManager>();
+        PollutionManager pm = FindFirstObjectByType<PollutionManager>();
+
+        CurrentFactory.Init(GetTileBonus(), gm, pm);
     }
     _isBuilt = true;
 }
@@ -179,4 +188,30 @@ public Vector2Int GetGridPosition()
     {
         _gridPosition = pos;
     }
+
+///
+/////////////////////////////POLLUTION
+/// ///
+    public void AddPollutionChance(float amount)
+{
+    if (_tileType == TileType.Water) return;
+    if (_tileType == TileType.Pollution) return;
+
+    _pollutionChance += amount;
+
+    // clamp so it never exceeds 100%
+    _pollutionChance = Mathf.Clamp(_pollutionChance, 0f, 1f);
+
+    TryPollute();
+}
+private void TryPollute()
+/////////EVERYTIME IT GETS UPGRADED OR THERE IS A NEW FACTORY IT COULD BE POLLUTED 
+{
+    float roll = Random.value; // random number between 0 and 1
+
+    if (roll <= _pollutionChance)
+    {
+        ConvertToPollution();
+    }
+}
 }

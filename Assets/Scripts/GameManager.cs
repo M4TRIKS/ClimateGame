@@ -6,8 +6,10 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private ComboManager _comboManager;
+        [Header("Managers")]
 
+    [SerializeField] private ComboManager _comboManager;
+    [SerializeField] private PollutionManager  _pollutionManager;
     [SerializeField] private GridManager _gridManager;
     [SerializeField] private TextMeshProUGUI _resourceText;
     [SerializeField] private TextMeshProUGUI _resourceTargetText;
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _targetResources = 5000;
 
     [SerializeField] private int _factoryCost = 25;
-    private int _resources = 15;
+    [SerializeField] private int _resources = 15;
     public bool _gameEnded = false;
 
 
@@ -41,13 +43,19 @@ public bool TryBuild(Tile tile)
     if (_resources < _factoryCost)
     {
         Debug.Log("Not enough resources");
+        
         return false;
     }
 
     tile.Build();
     _resources -= _factoryCost;
     UpdateUI();
+
+    //checksfor combos
     _comboManager.CheckCombos(tile);
+    
+    //adds pollution
+    _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
 
     return true;
 }

@@ -111,7 +111,7 @@ public class ComboManager : MonoBehaviour
         // POLLUTION EFFECT
         ////////////////////////////////////////////////////////////
 
-/*         Tile pollutionTop = _gridManager.GetTileAtPosition(center + new Vector2Int(0,2));
+   /*      Tile pollutionTop = _gridManager.GetTileAtPosition(center + new Vector2Int(0,2));
         Tile pollutionBot = _gridManager.GetTileAtPosition(center + new Vector2Int(0,-2));
 
         if (pollutionTop != null)
@@ -152,6 +152,10 @@ public class ComboManager : MonoBehaviour
         {
             stem.CurrentFactory.Upgrade();
         }
+    /*     Tile pollutionBot = _gridManager.GetTileAtPosition(center + new Vector2Int(1,0));
+
+        if (pollutionBot != null)
+            pollutionBot.ConvertToPollution(); */
 
         
     }
