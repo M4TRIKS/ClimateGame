@@ -21,4 +21,4 @@ MonoBehaviour:
   - baseProduction: 7
     cooldown: 3.4
     comboMultiplier: 2
-    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    sprite: {fileID: -5177388603050735206, guid: 2fd4003dd827ef24d9fe0b10e918c1a8, type: 3}

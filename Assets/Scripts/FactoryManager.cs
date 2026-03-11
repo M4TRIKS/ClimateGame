@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class FactoryManager : MonoBehaviour
     private Vector2 _offset, _originalPosition;
 
     private FactoryData _currentFactoryData;
+    private readonly List<Tile> _previewTiles = new List<Tile>();
 
     void Awake()
     {
@@ -33,11 +35,14 @@ public class FactoryManager : MonoBehaviour
 
         var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = mousePosition - _offset;
+
+        UpdateComboPreview();
     }
 
     void OnMouseDown()
     {
         _dragging = true;
+        ClearComboPreview();
 
         if (_source != null && _pickUpClip != null)
             _source.PlayOneShot(_pickUpClip);
@@ -51,6 +56,7 @@ public class FactoryManager : MonoBehaviour
     void OnMouseUp()
     {
         SpawnFactories();
+        ClearComboPreview();
 
         transform.position = _originalPosition;
         _dragging = false;
@@ -116,12 +122,50 @@ public class FactoryManager : MonoBehaviour
 
         _currentFactoryData = validFactories[Random.Range(0, validFactories.Length)];
 
-         if (_renderer != null &&
-        _currentFactoryData.levels != null &&
-        _currentFactoryData.levels.Length > 0 &&
-        _currentFactoryData.levels[0].sprite != null)
-    {
-        _renderer.sprite = _currentFactoryData.levels[0].sprite;
+        if (_renderer != null &&
+            _currentFactoryData.levels != null &&
+            _currentFactoryData.levels.Length > 0 &&
+            _currentFactoryData.levels[0].sprite != null)
+        {
+            _renderer.sprite = _currentFactoryData.levels[0].sprite;
+        }
     }
+
+    void UpdateComboPreview()
+    {
+        ClearComboPreview();
+
+        if (_currentFactoryData == null) return;
+        if (_currentFactoryData.comboPattern == null || _currentFactoryData.comboPattern.Length == 0) return;
+
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        int x = Mathf.RoundToInt(mouseWorldPos.x);
+        int y = Mathf.RoundToInt(mouseWorldPos.y);
+
+        Tile centerTile = _gridManager.GetTileAtPosition(new Vector2Int(x, y));
+
+        if (centerTile == null) return;
+
+        foreach (Vector2Int offset in _currentFactoryData.comboPattern)
+        {
+            Tile targetTile = _gridManager.GetTileAtPosition(centerTile.GetGridPosition() + offset);
+
+            if (targetTile != null)
+            {
+                targetTile.ShowComboPreview();
+                _previewTiles.Add(targetTile);
+            }
+        }
+    }
+
+    void ClearComboPreview()
+    {
+        for (int i = 0; i < _previewTiles.Count; i++)
+        {
+            if (_previewTiles[i] != null)
+                _previewTiles[i].HideComboPreview();
+        }
+
+        _previewTiles.Clear();
     }
 }

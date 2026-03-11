@@ -1102,6 +1102,11 @@ MonoBehaviour:
   _source: {fileID: 712747752}
   _pickUpClip: {fileID: 8300000, guid: 22ae266354f29bf46bc138ed3507a9cd, type: 3}
   _dropClip: {fileID: 8300000, guid: c32483c48a7c2f54ca7694cbd1f5b132, type: 3}
+  _factoryPool:
+  - {fileID: 11400000, guid: f73ad54e16171a543877e87dbd63493e, type: 2}
+  - {fileID: 11400000, guid: 8105f889e025cf54eb6a44194b24742e, type: 2}
+  - {fileID: 11400000, guid: ee1705f0e9ec25c409c44746d1a7803a, type: 2}
+  _renderer: {fileID: 0}
 --- !u!82 &712747752
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1909,9 +1914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d9d70997b9ed14fb08d5f79abeef03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _factoryPool:
-  - {fileID: 0}
-  - {fileID: 0}
   _comboManager: {fileID: 742779406}
   _pollutionManager: {fileID: 903095659}
   _gridManager: {fileID: 1462486077}
@@ -2082,7 +2084,7 @@ SceneRoots:
   - {fileID: 1462486078}
   - {fileID: 742779407}
   - {fileID: 903095660}
+  - {fileID: 712747746}
   - {fileID: 1281671896}
   - {fileID: 109088714}
-  - {fileID: 712747746}
   - {fileID: 1353323104}

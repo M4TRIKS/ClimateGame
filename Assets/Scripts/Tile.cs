@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
 {
     [Header("visuals")]
 
+    [SerializeField] private GameObject _comboPreviewHighlight;
     ///Factory
     [SerializeField] private GameObject _buildingPrefab;
     private bool _isBuilt = false;
@@ -98,6 +99,11 @@ public void ConvertToPollution()
 
                 break;
         }
+    if (_highlight != null)
+        _highlight.SetActive(false);
+
+    if (_comboPreviewHighlight != null)
+        _comboPreviewHighlight.SetActive(false);
     }
 
 //it allows what kind of tile is but without being able to change it.
@@ -218,5 +224,19 @@ private void TryPollute()
     {
         ConvertToPollution();
     }
+}
+
+
+/// combo preview
+public void ShowComboPreview()
+{
+    if (_comboPreviewHighlight != null)
+        _comboPreviewHighlight.SetActive(true);
+}
+
+public void HideComboPreview()
+{
+    if (_comboPreviewHighlight != null)
+        _comboPreviewHighlight.SetActive(false);
 }
 }
