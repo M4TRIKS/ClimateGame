@@ -116,9 +116,12 @@ public class FactoryManager : MonoBehaviour
 
         _currentFactoryData = validFactories[Random.Range(0, validFactories.Length)];
 
-        if (_renderer != null && _currentFactoryData.sprite != null)
-        {
-            _renderer.sprite = _currentFactoryData.sprite;
-        }
+         if (_renderer != null &&
+        _currentFactoryData.levels != null &&
+        _currentFactoryData.levels.Length > 0 &&
+        _currentFactoryData.levels[0].sprite != null)
+    {
+        _renderer.sprite = _currentFactoryData.levels[0].sprite;
+    }
     }
 }

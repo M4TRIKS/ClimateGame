@@ -1,10 +1,18 @@
-
-
 using UnityEngine;
 
 public class ComboManager : MonoBehaviour
 {
     [SerializeField] private GridManager _gridManager;
+
+    public void CheckAllCombos()
+    {
+        if (_gridManager == null) return;
+
+        foreach (Tile tile in _gridManager.GetAllTiles())
+        {
+            CheckFactoryCombo(tile);
+        }
+    }
 
   public void CheckFactoryCombo(Tile centerTile)
     {
@@ -14,6 +22,9 @@ public class ComboManager : MonoBehaviour
         Factory centerFactory = centerTile.CurrentFactory;
 
         if (centerFactory == null)
+            return;
+
+        if (centerFactory.HasCompletedCombo())
             return;
 
         Vector2Int[] pattern = centerFactory.GetComboPattern();
@@ -31,14 +42,15 @@ public class ComboManager : MonoBehaviour
                 return;
         }
 
-        // Activate center
         centerFactory.ActivateCombo();
+        centerFactory.Upgrade();
+        centerFactory.MarkComboCompleted();
 
-        // Activate all other factories in the pattern
         foreach (Vector2Int offset in pattern)
         {
             Tile t = _gridManager.GetTileAtPosition(centerPos + offset);
             t.CurrentFactory.ActivateCombo();
+            t.CurrentFactory.Upgrade();
         }
     }
 }

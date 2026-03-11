@@ -2,31 +2,19 @@ using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
-    // ScriptableObject that contains all the data for this factory type
-    // (production, cooldown, combo pattern, sprite)
     [SerializeField] private FactoryData _data;
 
-    // Bonus given by the tile (Grass, Rock, Sand etc)
+//not exploit the same combo
+    private bool _comboCompleted = false;
     private int _tileBonus;
-
-    // Factory upgrade level
-    private int _level = 1;
-
-    // Timer used to count production cooldown
+    private int _level = 0; // 0 = first level in array
     private float _timer;
-
-    // If true, this factory is part of a combo and gets multiplied production
     private bool _comboActive = false;
-
-    // Reference to GameManager to add resources
     private GameManager _gameManager;
 
-
-    // Called when the factory is built
     public void Init(int tileBonus)
     {
         _tileBonus = tileBonus;
-
         _gameManager = FindFirstObjectByType<GameManager>();
 
         if (_gameManager == null)
@@ -34,83 +22,116 @@ public class Factory : MonoBehaviour
             Debug.LogError("Factory could not find GameManager in the scene!");
         }
 
-        // Apply sprite from FactoryData
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-
-        if (renderer != null && _data != null && _data.sprite != null)
-        {
-            renderer.sprite = _data.sprite;
-        }
+        ApplyCurrentLevelVisuals();
     }
 
     void Update()
     {
-        // SAFETY CHECK
-        // If _data was not assigned yet, avoid crashing
-        if (_data == null)
-            return;
+        if (_data == null) return;
 
-        // Increase timer every frame
+        FactoryLevelData levelData = GetCurrentLevelData();
+        if (levelData == null) return;
+
         _timer += Time.deltaTime;
 
-        // When cooldown is reached → produce resources
-        if (_timer >= _data.cooldown)
+        if (_timer >= levelData.cooldown)
         {
             Produce();
             _timer = 0f;
         }
     }
 
-void Produce()
-{
-    // Find the tile this factory belongs to
-    Tile tile = GetComponentInParent<Tile>();
-
-    if (tile == null)
+    void Produce()
     {
-        Debug.LogError("Factory has no parent Tile!");
-        return;
+        Tile tile = GetComponentInParent<Tile>();
+
+        if (tile == null)
+        {
+            Debug.LogError("Factory has no parent Tile!");
+            return;
+        }
+
+        if (tile.GetTileType() == TileType.Pollution)
+            return;
+
+        if (_gameManager == null)
+        {
+            Debug.LogError("Factory has no GameManager reference!");
+            return;
+        }
+
+        FactoryLevelData levelData = GetCurrentLevelData();
+        if (levelData == null) return;
+
+        int total = levelData.baseProduction + _tileBonus;
+
+        if (_comboActive)
+        {
+            total = Mathf.RoundToInt(total * levelData.comboMultiplier);
+        }
+
+        _gameManager.AddResources(total);
     }
 
-    // If the tile is polluted, this factory produces nothing
-    if (tile.GetTileType() == TileType.Pollution)
-        return;
-
-    // Safety check: GameManager must exist
-    if (_gameManager == null)
-    {
-        Debug.LogError("Factory has no GameManager reference!");
-        return;
-    }
-
-    // Safety check: FactoryData must exist
-    if (_data == null)
-    {
-        Debug.LogError("Factory has no FactoryData assigned!");
-        return;
-    }
-
-    // Base production + tile bonus
-    int total = (_tileBonus * _level) + _data.baseProduction;
-
-    // Apply combo multiplier if this factory is part of an active combo
-    if (_comboActive)
-    {
-        total = Mathf.RoundToInt(total * _data.comboMultiplier);
-    }
-
-    // Give resources to the GameManager
-    _gameManager.AddResources(total);
-}
-
-    // Called by ComboManager when a combo is detected
     public void ActivateCombo()
     {
         _comboActive = true;
     }
 
+    public void DeactivateCombo()
+    {
+        _comboActive = false;
+    }
 
-    // Used by ComboManager to know which pattern this factory uses
+    public void Upgrade()
+    {
+        if (_data == null || _data.levels == null || _data.levels.Length == 0)
+        {
+            Debug.LogError("Factory has no upgrade levels configured!");
+            return;
+        }
+
+        if (_level < _data.levels.Length - 1)
+        {
+            _level++;
+            ApplyCurrentLevelVisuals();
+            Debug.Log($"{name} upgraded to level {_level + 1}");
+        }
+        else
+        {
+            Debug.Log($"{name} is already at max level");
+        }
+    }
+
+    FactoryLevelData GetCurrentLevelData()
+    {
+        if (_data == null)
+        {
+            Debug.LogError("Factory has no FactoryData assigned!");
+            return null;
+        }
+
+        if (_data.levels == null || _data.levels.Length == 0)
+        {
+            Debug.LogError($"FactoryData '{_data.name}' has no levels configured!");
+            return null;
+        }
+
+        int clampedLevel = Mathf.Clamp(_level, 0, _data.levels.Length - 1);
+        return _data.levels[clampedLevel];
+    }
+
+    void ApplyCurrentLevelVisuals()
+    {
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        FactoryLevelData levelData = GetCurrentLevelData();
+
+        if (renderer != null && levelData != null && levelData.sprite != null)
+        {
+            renderer.sprite = levelData.sprite;
+        }
+    }
+
     public Vector2Int[] GetComboPattern()
     {
         if (_data == null)
@@ -122,12 +143,11 @@ void Produce()
         return _data.comboPattern;
     }
 
-
-    // Called by Tile when building the factory
-    // This assigns the ScriptableObject data
-public void SetData(FactoryData data)
+    public void SetData(FactoryData data)
     {
         _data = data;
+        _level = 0;
+        _comboActive = false;
 
         if (_data == null)
         {
@@ -138,4 +158,14 @@ public void SetData(FactoryData data)
             Debug.Log("Factory data assigned: " + _data.name);
         }
     }
+    
+    public bool HasCompletedCombo()
+{
+    return _comboCompleted;
+}
+
+public void MarkComboCompleted()
+{
+    _comboCompleted = true;
+}
 }

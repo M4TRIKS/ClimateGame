@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
   m_Name: FactoryMain 3
   m_EditorClassIdentifier: 
-  baseProduction: 1
-  cooldown: 5
   comboPattern: []
-  comboMultiplier: 1
-  sprite: {fileID: 7482667652216324306, guid: 205ab1fb949acaa439d72b2802f1c059, type: 3}
+  levels:
+  - baseProduction: 5
+    cooldown: 4
+    comboMultiplier: 1
+    sprite: {fileID: 7482667652216324306, guid: 205ab1fb949acaa439d72b2802f1c059, type: 3}
+  - baseProduction: 7
+    cooldown: 3.4
+    comboMultiplier: 2
+    sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

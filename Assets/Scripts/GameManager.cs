@@ -58,12 +58,14 @@ public bool TryBuild(Tile tile, FactoryData factoryData)
 
     if (tile.CurrentFactory != null && _comboManager != null)
     {
-        _comboManager.CheckFactoryCombo(tile);
+       _comboManager.CheckAllCombos();
     }
 
     if (_pollutionManager != null)
     {
-        _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
+        //pollution chance that is acumulative
+        _pollutionManager.ApplyFactoryPollution(tile, 0.025f); 
+        
     }
 
     return true;
