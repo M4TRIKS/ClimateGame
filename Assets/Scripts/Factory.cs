@@ -1,83 +1,141 @@
 using UnityEngine;
 
 public class Factory : MonoBehaviour
-{   private PollutionManager _pollutionManager;
-    [Header("generation")]
-    [SerializeField] private int _baseProduction = 1;
-    [SerializeField] private float _cooldown = 5f;
-    [Header("Visuals")]
-    [SerializeField] private SpriteRenderer _renderer; 
-    [SerializeField] private Sprite _upgradedSprite;   
+{
+    // ScriptableObject that contains all the data for this factory type
+    // (production, cooldown, combo pattern, sprite)
+    [SerializeField] private FactoryData _data;
 
-    private int _level = 1;
+    // Bonus given by the tile (Grass, Rock, Sand etc)
     private int _tileBonus;
-    // timer used to count time until next production
+
+    // Factory upgrade level
+    private int _level = 1;
+
+    // Timer used to count production cooldown
     private float _timer;
+
+    // If true, this factory is part of a combo and gets multiplied production
+    private bool _comboActive = false;
+
+    // Reference to GameManager to add resources
     private GameManager _gameManager;
 
-    /// This function is called right after the factory is spawned.
-    /// The tile sends the bonus depending on type
- /*    public void Init(int tileBonus)
+
+    // Called when the factory is built
+    public void Init(int tileBonus)
     {
         _tileBonus = tileBonus;
+
         _gameManager = FindFirstObjectByType<GameManager>();
-    } */
- public void Init(int tileBonus, GameManager gameManager, PollutionManager pollutionManager)
+
+        if (_gameManager == null)
         {
-            _tileBonus = tileBonus;
-            _gameManager = gameManager;
-            _pollutionManager = pollutionManager;
+            Debug.LogError("Factory could not find GameManager in the scene!");
         }
+
+        // Apply sprite from FactoryData
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+        if (renderer != null && _data != null && _data.sprite != null)
+        {
+            renderer.sprite = _data.sprite;
+        }
+    }
 
     void Update()
     {
+        // SAFETY CHECK
+        // If _data was not assigned yet, avoid crashing
+        if (_data == null)
+            return;
+
+        // Increase timer every frame
         _timer += Time.deltaTime;
 
-        if (_timer >= _cooldown)
+        // When cooldown is reached → produce resources
+        if (_timer >= _data.cooldown)
         {
             Produce();
             _timer = 0f;
         }
-
     }
 
-    /// Calculates how many resources the factory produces
-    /// and sends them to the GameManager
-    
-    void Produce()
-    {
-        
-        int total = _tileBonus * _baseProduction  ;
+void Produce()
+{
+    // Find the tile this factory belongs to
+    Tile tile = GetComponentInParent<Tile>();
 
-        // Give resources to the GameManager
-        _gameManager.AddResources(total);
+    if (tile == null)
+    {
+        Debug.LogError("Factory has no parent Tile!");
+        return;
     }
 
-public void Upgrade()
+    // If the tile is polluted, this factory produces nothing
+    if (tile.GetTileType() == TileType.Pollution)
+        return;
+
+    // Safety check: GameManager must exist
+    if (_gameManager == null)
     {
-        // Don't upgrade if it's already level 2
-        if (_level > 1) return; 
+        Debug.LogError("Factory has no GameManager reference!");
+        return;
+    }
 
-        _level++;
-        _baseProduction += 1;
-        _cooldown *= 0.9f; //multiply will get 10 %faster 
+    // Safety check: FactoryData must exist
+    if (_data == null)
+    {
+        Debug.LogError("Factory has no FactoryData assigned!");
+        return;
+    }
 
-        //skin
-        if (_renderer != null && _upgradedSprite != null)
+    // Base production + tile bonus
+    int total = (_tileBonus * _level) + _data.baseProduction;
+
+    // Apply combo multiplier if this factory is part of an active combo
+    if (_comboActive)
+    {
+        total = Mathf.RoundToInt(total * _data.comboMultiplier);
+    }
+
+    // Give resources to the GameManager
+    _gameManager.AddResources(total);
+}
+
+    // Called by ComboManager when a combo is detected
+    public void ActivateCombo()
+    {
+        _comboActive = true;
+    }
+
+
+    // Used by ComboManager to know which pattern this factory uses
+    public Vector2Int[] GetComboPattern()
+    {
+        if (_data == null)
         {
-            _renderer.sprite = _upgradedSprite;
+            Debug.LogError("Factory has no FactoryData assigned!");
+            return null;
         }
-        PollutionManager pollution = FindFirstObjectByType<PollutionManager>();
-    
-        Tile tile = GetComponentInParent<Tile>();
-      // Apply pollution to the tiles around this factory.
-        // 0.2f = 20% pollution chance increase.
-        // Upgraded factories pollute more than normal factories.
-        if (tile != null)
+
+        return _data.comboPattern;
+    }
+
+
+    // Called by Tile when building the factory
+    // This assigns the ScriptableObject data
+public void SetData(FactoryData data)
+    {
+        _data = data;
+
+        if (_data == null)
         {
-            pollution.ApplyFactoryPollution(tile, 0.05f);
+            Debug.LogError("SetData received NULL FactoryData");
         }
-        
-        Debug.Log("upgraded");
+        else
+        {
+            Debug.Log("Factory data assigned: " + _data.name);
+        }
     }
 }

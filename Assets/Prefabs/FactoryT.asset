@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
+  m_Name: FactoryT
+  m_EditorClassIdentifier: 
+  baseProduction: 1
+  cooldown: 3
+  comboPattern:
+  - {x: 0, y: 1}
+  - {x: -1, y: 1}
+  - {x: 1, y: 1}
+  comboMultiplier: 2
+  sprite: {fileID: -9095717837082945937, guid: 85eec5c5401a87143adb3c6d4b968c4c, type: 3}

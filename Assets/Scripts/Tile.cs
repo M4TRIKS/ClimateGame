@@ -55,13 +55,15 @@ public void ConvertToPollution()
     _tileType = TileType.Pollution;
     _renderer.color = _pollutionColor;
   // Tell the existing factory it has been polluted
+ 
+      
     if (_isBuilt && CurrentFactory != null)
-    {
-        GameManager gm = FindFirstObjectByType<GameManager>();
-        PollutionManager pm = FindFirstObjectByType<PollutionManager>();
-        CurrentFactory.Init(GetTileBonus(), gm, pm);
+        {
+    // Recalculate tile bonus if tile becomes polluted
+        CurrentFactory.Init(GetTileBonus());
+        }
        // CurrentFactory.Init(GetTileBonus()); // Since the bonus saves at the begining once the factory is build I need to update it
-    }
+    
 
     Debug.Log("Tile has been polluted");
 
@@ -143,19 +145,22 @@ public bool CanBuild()
          */
 
 
-public void Build()
+public void Build(FactoryData data)
 {
-    _currentBuilding = Instantiate(_buildingPrefab, transform.position, Quaternion.identity);
-    
+        // Spawn factory prefab (as a child of the tile)
+
+    _currentBuilding = Instantiate(_buildingPrefab, transform.position, Quaternion.identity, transform);    
     // Save the reference to CurrentFactory so the ComboManager can upgrade it later!
     CurrentFactory = _currentBuilding.GetComponent<Factory>();
 
     if (CurrentFactory != null)
-    {
-        GameManager gm = FindFirstObjectByType<GameManager>();
-        PollutionManager pm = FindFirstObjectByType<PollutionManager>();
+    {   
+        // Give the factory its ScriptableObject data
 
-        CurrentFactory.Init(GetTileBonus(), gm, pm);
+        CurrentFactory.SetData(data);     
+        // Initialize the factory with the tile bonus
+
+        CurrentFactory.Init(GetTileBonus());
     }
     _isBuilt = true;
 }

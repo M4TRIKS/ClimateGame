@@ -1909,6 +1909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d9d70997b9ed14fb08d5f79abeef03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _factoryPool:
+  - {fileID: 0}
+  - {fileID: 0}
   _comboManager: {fileID: 742779406}
   _pollutionManager: {fileID: 903095659}
   _gridManager: {fileID: 1462486077}

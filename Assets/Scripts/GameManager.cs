@@ -7,7 +7,6 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
         [Header("Managers")]
-
     [SerializeField] private ComboManager _comboManager;
     [SerializeField] private PollutionManager  _pollutionManager;
     [SerializeField] private GridManager _gridManager;
@@ -36,26 +35,36 @@ public void AddResources(int amount)
     UpdateUI();
     CheckWinCondition();
 }
-public bool TryBuild(Tile tile)
+public bool TryBuild(Tile tile, FactoryData factoryData)
 {
+    if (tile == null) return false;
+    if (factoryData == null)
+    {
+        Debug.LogError("TryBuild received null FactoryData");
+        return false;
+    }
+
     if (!tile.CanBuild()) return false;
 
     if (_resources < _factoryCost)
     {
         Debug.Log("Not enough resources");
-        
         return false;
     }
 
-    tile.Build();
+    tile.Build(factoryData);
     _resources -= _factoryCost;
     UpdateUI();
 
-    //checksfor combos
-    _comboManager.CheckCombos(tile);
-    
-    //adds pollution
-    _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
+    if (tile.CurrentFactory != null && _comboManager != null)
+    {
+        _comboManager.CheckFactoryCombo(tile);
+    }
+
+    if (_pollutionManager != null)
+    {
+        _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
+    }
 
     return true;
 }

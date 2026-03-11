@@ -1,86 +1,124 @@
 using UnityEngine;
 
-
 public class FactoryManager : MonoBehaviour
-{ 
-[SerializeField] private GameManager _gameManager;
+{
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private GridManager _gridManager;
+    [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioClip _pickUpClip, _dropClip;
 
-[SerializeField] private GridManager _gridManager;
-[SerializeField] private AudioSource _source;
-[SerializeField] private AudioClip _pickUpClip, _dropClip;
-private Collider2D _collider;
+    [SerializeField] private FactoryData[] _factoryPool;
+    [SerializeField] private SpriteRenderer _renderer;
 
-private bool _dragging;
-    // _offset: Distance between the mouse and the center of the object (prevents snapping)
-    // _originalPosition: Where the "source" factory stays
-private Vector2 _offset, _originalPosition;
+    private Collider2D _collider;
+    private bool _dragging;
+    private Vector2 _offset, _originalPosition;
+
+    private FactoryData _currentFactoryData;
+
     void Awake()
     {
-        // Store the starting position so the "Ghost" factory can return to the menu
         _originalPosition = transform.position;
         _collider = GetComponent<Collider2D>();
 
-    }
+        if (_renderer == null)
+            _renderer = GetComponent<SpriteRenderer>();
 
+        RollNextFactory();
+    }
 
     void Update()
     {
+        if (!_dragging) return;
 
-        if(!_dragging) return;   
-        var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);  // Follow the mouse: Update the position every frame
+        var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = mousePosition - _offset;
+    }
 
-        transform.position  = mousePosition - _offset; 
-
-    } 
     void OnMouseDown()
     {
         _dragging = true;
-        _source.PlayOneShot(_pickUpClip);
-        // Calculate the gap between the mouse and the object's center 
-        // to keep the drag looking smooth and natural.
+
+        if (_source != null && _pickUpClip != null)
+            _source.PlayOneShot(_pickUpClip);
 
         _offset = GetMousePos() - (Vector2)transform.position;
-       _collider.enabled = false; // unable collider while I drag (It will let the tile higlight work)
 
+        if (_collider != null)
+            _collider.enabled = false;
     }
+
     void OnMouseUp()
     {
-        SpawnFactories(); // Attempt to place a factory at the current mouse spot
-    
-        transform.position  = _originalPosition; // Return  back to its starting spot in the sidebar
+        SpawnFactories();
+
+        transform.position = _originalPosition;
         _dragging = false;
-       _collider.enabled = true; // enable
-        _source.PlayOneShot(_dropClip);
+
+        if (_collider != null)
+            _collider.enabled = true;
+
+        if (_source != null && _dropClip != null)
+            _source.PlayOneShot(_dropClip);
     }
-    
-        Vector2 GetMousePos() // Helper function to convert mouse pixels to world coordinates
+
+    Vector2 GetMousePos()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
     }
-void SpawnFactories()
-{
-    //Where is the mouse right now?
-    Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //Round the position to find the nearest Grid coordinate
 
-    int x = Mathf.RoundToInt(mouseWorldPos.x);
-    int y = Mathf.RoundToInt(mouseWorldPos.y);
-    //asks grid manager if there is a tile in the same coordenates
-
-    Tile tile = _gridManager.GetTileAtPosition(new Vector2Int(x, y));
-    
-    //If we found a tile, tell the GameManager to try and build there
-
-    if (tile == null) return;
-    
-      bool success = _gameManager.TryBuild(tile);
-
-    if (!success)
+    void SpawnFactories()
     {
-        Debug.Log("Could not build here");
+        if (_currentFactoryData == null)
+        {
+            Debug.LogError("No current factory selected!");
+            return;
+        }
+
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        int x = Mathf.RoundToInt(mouseWorldPos.x);
+        int y = Mathf.RoundToInt(mouseWorldPos.y);
+
+        Tile tile = _gridManager.GetTileAtPosition(new Vector2Int(x, y));
+
+        if (tile == null) return;
+
+        bool success = _gameManager.TryBuild(tile, _currentFactoryData);
+
+        if (success)
+        {
+            RollNextFactory();
+        }
+        else
+        {
+            Debug.Log("Could not build here");
+        }
     }
 
-}
-}
+    void RollNextFactory()
+    {
+        if (_factoryPool == null || _factoryPool.Length == 0)
+        {
+            Debug.LogError("Factory pool is empty!");
+            _currentFactoryData = null;
+            return;
+        }
 
+        var validFactories = System.Array.FindAll(_factoryPool, f => f != null);
+
+        if (validFactories.Length == 0)
+        {
+            Debug.LogError("Factory pool has no valid FactoryData!");
+            _currentFactoryData = null;
+            return;
+        }
+
+        _currentFactoryData = validFactories[Random.Range(0, validFactories.Length)];
+
+        if (_renderer != null && _currentFactoryData.sprite != null)
+        {
+            _renderer.sprite = _currentFactoryData.sprite;
+        }
+    }
+}
