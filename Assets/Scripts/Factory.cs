@@ -3,7 +3,7 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     [SerializeField] private FactoryData _data;
-
+    [SerializeField] private ResourcePopup _resourcePopupPrefab;
 //not exploit the same combo
     private bool _comboCompleted = false;
     private int _tileBonus;
@@ -43,6 +43,7 @@ public class Factory : MonoBehaviour
 
     void Produce()
     {
+       
         Tile tile = GetComponentInParent<Tile>();
 
         if (tile == null)
@@ -69,8 +70,13 @@ public class Factory : MonoBehaviour
         {
             total = Mathf.RoundToInt(total * levelData.comboMultiplier);
         }
-
         _gameManager.AddResources(total);
+
+        if (_resourcePopupPrefab != null)
+        {
+            ResourcePopup.Create(_resourcePopupPrefab, transform.position + Vector3.up * 0.5f, total);
+        }
+
     }
 
     public void ActivateCombo()

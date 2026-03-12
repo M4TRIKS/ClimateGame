@@ -101,3 +101,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 0}
+  _resourcePopupPrefab: {fileID: 1672658811675060303, guid: 3c004065153d35840ae57e3d956010ef, type: 3}
