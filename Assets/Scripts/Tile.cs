@@ -10,7 +10,8 @@ public enum TileType   // tipes of tiles
     Sand,
     Rock,
 
-    Pollution
+    Pollution,
+    Fire
 }
 
 public class Tile : MonoBehaviour
@@ -28,6 +29,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Color _sandColor;
     [SerializeField] private Color _rockColor;
     [SerializeField] private Color _pollutionColor;
+    [SerializeField] private Color _fireColor;
 
     // Reference to the SpriteRenderer component (to see the tile)
     [SerializeField] private SpriteRenderer _renderer;
@@ -96,8 +98,10 @@ public void ConvertToPollution()
 
             case TileType.Pollution:
             _renderer.color = _pollutionColor;
-
                 break;
+             case TileType.Fire:
+            _renderer.color = _fireColor;
+    break;
         }
     if (_highlight != null)
         _highlight.SetActive(false);
@@ -137,6 +141,7 @@ public bool CanBuild()
 {
     if (_isBuilt) return false; //if is build or not
     if (_tileType == TileType.Water) return false; // not being able to build on water
+    if (_tileType == TileType.Fire) return false; //same with fire
 
     return true;
 }
@@ -187,6 +192,8 @@ public int GetTileBonus()
         case TileType.Pollution:
         return 0;
 
+        case TileType.Fire:
+        return 0;
         default:
             return 0;
     }
@@ -238,5 +245,55 @@ public void HideComboPreview()
 {
     if (_comboPreviewHighlight != null)
         _comboPreviewHighlight.SetActive(false);
+}
+/// <summary>
+/// ////////////////////////////////////FIRE EVENT METHODS
+/// </summary>
+public void ConvertToFire()
+{
+    if (_tileType == TileType.Water) return;
+    if (_tileType == TileType.Fire) return;
+
+    _tileType = TileType.Fire;
+    _renderer.color = _fireColor;
+
+    if (_isBuilt)
+    {
+        DestroyBuilding();
+    }
+
+    Debug.Log($"Tile {name} is now on fire!");
+
+    
+}
+public void DestroyBuilding()
+{
+    if (_currentBuilding != null)
+    {
+        Destroy(_currentBuilding);
+    }
+
+    _currentBuilding = null;
+    CurrentFactory = null;
+    _isBuilt = false;
+}
+
+
+
+////// water event
+
+public void ConvertToWater()
+{
+    if (_tileType == TileType.Water) return;
+
+    _tileType = TileType.Water;
+    _renderer.color = _waterColor;
+
+    if (_isBuilt)
+    {
+        DestroyBuilding();
+    }
+
+    Debug.Log($"Tile {name} has been flooded!");
 }
 }
