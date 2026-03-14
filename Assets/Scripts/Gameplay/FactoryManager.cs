@@ -29,44 +29,61 @@ public class FactoryManager : MonoBehaviour
         RollNextFactory();
     }
 
-    void Update()
+  void Update()
+{
+    if (IsInputBlocked())
     {
-        if (!_dragging) return;
-
-        var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition - _offset;
-
-        UpdateComboPreview();
+        if (_dragging)
+        {
+            CancelDrag();
+        }
+        return;
     }
 
-    void OnMouseDown()
+    if (!_dragging) return;
+
+    var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    transform.position = mousePosition - _offset;
+
+    UpdateComboPreview();
+}
+
+void OnMouseDown()
+{
+    if (IsInputBlocked()) return;
+
+    _dragging = true;
+    ClearComboPreview();
+
+    if (_source != null && _pickUpClip != null)
+        _source.PlayOneShot(_pickUpClip);
+
+    _offset = GetMousePos() - (Vector2)transform.position;
+
+    if (_collider != null)
+        _collider.enabled = false;
+}
+
+void OnMouseUp()
+{
+    if (IsInputBlocked())
     {
-        _dragging = true;
-        ClearComboPreview();
-
-        if (_source != null && _pickUpClip != null)
-            _source.PlayOneShot(_pickUpClip);
-
-        _offset = GetMousePos() - (Vector2)transform.position;
-
-        if (_collider != null)
-            _collider.enabled = false;
+        CancelDrag();
+        return;
     }
 
-    void OnMouseUp()
-    {
-        SpawnFactories();
-        ClearComboPreview();
+    SpawnFactories();
+    ClearComboPreview();
 
-        transform.position = _originalPosition;
-        _dragging = false;
+    transform.position = _originalPosition;
+    _dragging = false;
 
-        if (_collider != null)
-            _collider.enabled = true;
+    if (_collider != null)
+        _collider.enabled = true;
 
-        if (_source != null && _dropClip != null)
-            _source.PlayOneShot(_dropClip);
-    }
+    if (_source != null && _dropClip != null)
+        _source.PlayOneShot(_dropClip);
+}
 
     Vector2 GetMousePos()
     {
@@ -168,4 +185,29 @@ public class FactoryManager : MonoBehaviour
 
         _previewTiles.Clear();
     }
+
+
+    /// <summary>
+    /// /problem of keep draging while paused
+    /// </summary>
+    /// <returns></returns>
+    bool IsInputBlocked()
+{
+    if (_gameManager != null && _gameManager.IsGameEnded)
+        return true;
+
+    if (Time.timeScale == 0f)
+        return true;
+
+    return false;
+}
+void CancelDrag()
+{
+    ClearComboPreview();
+    transform.position = _originalPosition;
+    _dragging = false;
+
+    if (_collider != null)
+        _collider.enabled = true;
+}
 }

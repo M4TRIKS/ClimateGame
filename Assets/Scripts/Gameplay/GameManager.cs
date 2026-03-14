@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _baseTargetResources = 5000;
     [SerializeField] private int _factoryCost = 25;
     [SerializeField] private int _startingResources = 15;
-
+    private static int s_currentRound = 1;
     private int _targetResources;
     private int _resources;
     public bool _gameEnded = false;
@@ -188,6 +188,8 @@ public class GameManager : MonoBehaviour
         // First win: +1000
         // Second win: +2000
         // Third win: +4000
+        s_currentRound++;          //  increase round
+
         s_currentTarget += s_nextIncrease;
         s_nextIncrease *= 2;
 
@@ -196,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartFromBeginning()
     {
+        s_currentRound = 1; 
         s_currentTarget = _baseTargetResources;
         s_nextIncrease = 1000;
 
@@ -206,5 +209,10 @@ public class GameManager : MonoBehaviour
     {
         
         SceneLoader.Instance.ReloadScene();
+    }
+    ///
+    public static int GetCurrentRound()
+    {
+        return s_currentRound;
     }
 }
