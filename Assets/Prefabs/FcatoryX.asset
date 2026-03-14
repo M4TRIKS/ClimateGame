@@ -18,11 +18,11 @@ MonoBehaviour:
   - {x: -1, y: 1}
   - {x: 1, y: 1}
   levels:
-  - baseProduction: 12
+  - baseProduction: 9
     cooldown: 9.8
     comboMultiplier: 0
     sprite: {fileID: 7482667652216324306, guid: 6a436478b4fafeb4fbaf989a235984ba, type: 3}
-  - baseProduction: 27
+  - baseProduction: 25
     cooldown: 5.25
     comboMultiplier: 1.14
     sprite: {fileID: -2620146921187900207, guid: 1e28b9619d3931d46ad03cb702084db8, type: 3}

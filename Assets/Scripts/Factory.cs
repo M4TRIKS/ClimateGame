@@ -12,6 +12,7 @@ public class Factory : MonoBehaviour
     private bool _comboActive = false;
     private GameManager _gameManager;
 
+
     public void Init(int tileBonus)
     {
         _tileBonus = tileBonus;
@@ -28,6 +29,8 @@ public class Factory : MonoBehaviour
     void Update()
     {
         if (_data == null) return;
+        if (_gameManager != null && _gameManager.IsGameEnded) return;
+
 
         FactoryLevelData levelData = GetCurrentLevelData();
         if (levelData == null) return;
@@ -76,6 +79,8 @@ public class Factory : MonoBehaviour
         {
             ResourcePopup.Create(_resourcePopupPrefab, transform.position + Vector3.up * 0.5f, total);
         }
+        if (_gameManager != null && _gameManager.IsGameEnded)
+        return;
 
     }
 

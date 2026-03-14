@@ -1,103 +1,209 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-        [Header("Managers")]
+    [Header("Managers")]
     [SerializeField] private ComboManager _comboManager;
-    [SerializeField] private PollutionManager  _pollutionManager;
+    [SerializeField] private PollutionManager _pollutionManager;
     [SerializeField] private GridManager _gridManager;
+
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI _resourceText;
     [SerializeField] private TextMeshProUGUI _resourceTargetText;
-[Header("resources")]
 
-    [SerializeField] private int _targetResources = 5000;
+    [Header("End game UI")]
+    [SerializeField] private GameObject _endGamePanel;
+    [SerializeField] private Image _endGameImage;
+    [SerializeField] private Sprite _winSprite;
+    [SerializeField] private Sprite _loseSprite;
+    [SerializeField] private Button _continueButton;
+    [SerializeField] private Button _restartButton;
 
+    [Header("Resources")]
+    [SerializeField] private int _baseTargetResources = 5000;
     [SerializeField] private int _factoryCost = 25;
-    [SerializeField] private int _resources = 15;
+    [SerializeField] private int _startingResources = 15;
+
+    private int _targetResources;
+    private int _resources;
     public bool _gameEnded = false;
 
+    // Progression that survives scene reload
+    private static int s_currentTarget = 5000;
+    private static int s_nextIncrease = 1000;
+    private static bool s_initialized = false;
+
+    public bool IsGameEnded => _gameEnded;
+
+    void Awake()
+    {
+        if (!s_initialized)
+        {
+            s_currentTarget = _baseTargetResources;
+            s_nextIncrease = 1000;
+            s_initialized = true;
+        }
+
+        _targetResources = s_currentTarget;
+        _resources = _startingResources;
+    }
 
     void Start()
     {
-        _resourceTargetText.text = "Target: " + _targetResources;
+        if (_resourceTargetText != null)
+            _resourceTargetText.text = "Target: " + _targetResources;
+
         UpdateUI();
+        SetupEndGameUI();
     }
-    // Update is called once per frame
-    
-  
-public void AddResources(int amount)
-{
-    _resources += amount;
-    UpdateUI();
-    CheckWinCondition();
-}
-public bool TryBuild(Tile tile, FactoryData factoryData)
-{
-    if (tile == null) return false;
-    if (factoryData == null)
+
+    void SetupEndGameUI()
     {
-        Debug.LogError("TryBuild received null FactoryData");
-        return false;
+        if (_endGamePanel != null)
+            _endGamePanel.SetActive(false);
+
+        if (_continueButton != null)
+        {
+            _continueButton.onClick.RemoveAllListeners();
+            _continueButton.onClick.AddListener(ContinueGame);
+            _continueButton.gameObject.SetActive(false);
+        }
+
+        if (_restartButton != null)
+        {
+            _restartButton.onClick.RemoveAllListeners();
+            _restartButton.onClick.AddListener(RestartFromBeginning);
+            _restartButton.gameObject.SetActive(false);
+        }
     }
 
-    if (!tile.CanBuild()) return false;
-
-    if (_resources < _factoryCost)
+    public void AddResources(int amount)
     {
-        Debug.Log("Not enough resources");
-        return false;
+        if (_gameEnded) return;
+
+        _resources += amount;
+        UpdateUI();
+        CheckWinCondition();
     }
 
-    tile.Build(factoryData);
-    _resources -= _factoryCost;
-    UpdateUI();
-
-    if (tile.CurrentFactory != null && _comboManager != null)
+    public bool TryBuild(Tile tile, FactoryData factoryData)
     {
-       _comboManager.CheckAllCombos();
+        if (_gameEnded) return false;
+        if (tile == null) return false;
+
+        if (factoryData == null)
+        {
+            Debug.LogError("TryBuild received null FactoryData");
+            return false;
+        }
+
+        if (!tile.CanBuild()) return false;
+
+        if (_resources < _factoryCost)
+        {
+            Debug.Log("Not enough resources");
+            return false;
+        }
+
+        tile.Build(factoryData);
+        _resources -= _factoryCost;
+        UpdateUI();
+
+        if (_comboManager != null)
+        {
+            _comboManager.CheckAllCombos();
+        }
+
+        if (_pollutionManager != null)
+        {
+            _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
+        }
+
+        return true;
     }
 
-    if (_pollutionManager != null)
+    void UpdateUI()
     {
-        //pollution chance that is acumulative
-        _pollutionManager.ApplyFactoryPollution(tile, 0.025f); 
-        
+        if (_resourceText != null)
+            _resourceText.text = "Energy: " + _resources;
+
+        if (_resourceTargetText != null)
+            _resourceTargetText.text = "Target: " + _targetResources;
     }
 
-    return true;
-}
+    void CheckWinCondition()
+    {
+        if (_resources >= _targetResources && !_gameEnded)
+        {
+            WinGame();
+        }
+    }
 
-void UpdateUI()
-{
-    _resourceText.text = "Energy: " + _resources;
-    
-}
-
-void CheckWinCondition()
-{
-    if (_resources >= _targetResources && !_gameEnded)
+    void WinGame()
     {
         _gameEnded = true;
-        Debug.Log("you win yipeeee!");
+        ShowEndScreen(true);
+        Debug.Log("WIN!");
+    }
+
+    public void TimeUp()
+    {
+        if (_gameEnded) return;
+
+        _gameEnded = true;
+
+        if (_resources >= _targetResources)
+        {
+            ShowEndScreen(true);
+            Debug.Log("WIN!");
+        }
+        else
+        {
+            ShowEndScreen(false);
+            Debug.Log("LOSE!");
+        }
+    }
+
+    void ShowEndScreen(bool won)
+    {
+        if (_endGamePanel != null)
+            _endGamePanel.SetActive(true);
+
+        if (_endGameImage != null)
+            _endGameImage.sprite = won ? _winSprite : _loseSprite;
+
+        if (_continueButton != null)
+            _continueButton.gameObject.SetActive(won);
+
+        if (_restartButton != null)
+            _restartButton.gameObject.SetActive(!won);
+    }
+
+    public void ContinueGame()
+    {
+        // First win: +1000
+        // Second win: +2000
+        // Third win: +4000
+        s_currentTarget += s_nextIncrease;
+        s_nextIncrease *= 2;
+
+        ReloadCurrentScene();
+    }
+
+    public void RestartFromBeginning()
+    {
+        s_currentTarget = _baseTargetResources;
+        s_nextIncrease = 1000;
+
+        ReloadCurrentScene();
+    }
+
+    void ReloadCurrentScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
 }
-public void TimeUp()
-{
-    if (_gameEnded) return; //if the plaayer gets to the goal just in the moment
-
-    _gameEnded = true;
-
-    if (_resources >= _targetResources) //checks one last time
-        Debug.Log("WIN!");
-    else
-        Debug.Log("LOSE!");
-}
-
-
-}
-
-

@@ -42,7 +42,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if (!_gameManager._gameEnded)
+      if (!_gameManager.IsGameEnded)
         {
             
             //counts down if there is time

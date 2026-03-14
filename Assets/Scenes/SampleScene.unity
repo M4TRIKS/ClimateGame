@@ -307,8 +307,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0375ae832474f9a41a1d90ad9a840d1a, type: 2}
+  m_sharedMaterial: {fileID: -2831476775144683957, guid: 0375ae832474f9a41a1d90ad9a840d1a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -966,7 +966,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000008967fb31497685d9
+  m_ApplyToSortingLayers: 000000008967fb31497685d9a312f278
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1969,9 +1969,15 @@ MonoBehaviour:
   _gridManager: {fileID: 1462486077}
   _resourceText: {fileID: 109796684}
   _resourceTargetText: {fileID: 607215003}
-  _targetResources: 1902
+  _endGamePanel: {fileID: 0}
+  _endGameImage: {fileID: 0}
+  _winSprite: {fileID: 0}
+  _loseSprite: {fileID: 0}
+  _continueButton: {fileID: 0}
+  _restartButton: {fileID: 0}
+  _baseTargetResources: 2500
   _factoryCost: 20
-  _resources: 20
+  _startingResources: 20
   _gameEnded: 0
 --- !u!4 &1642257412
 Transform:

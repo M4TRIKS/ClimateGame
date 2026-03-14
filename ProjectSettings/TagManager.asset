@@ -47,5 +47,8 @@ TagManager:
   - name: Buldings
     uniqueID: 3649402441
     locked: 0
+  - name: Resources
+    uniqueID: 2029130403
+    locked: 0
   m_RenderingLayers:
   - Default
