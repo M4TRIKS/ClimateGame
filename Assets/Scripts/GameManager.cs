@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PollutionManager _pollutionManager;
     [SerializeField] private GridManager _gridManager;
 
+
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI _resourceText;
     [SerializeField] private TextMeshProUGUI _resourceTargetText;
@@ -203,7 +204,7 @@ public class GameManager : MonoBehaviour
 
     void ReloadCurrentScene()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        
+        SceneLoader.Instance.ReloadScene();
     }
 }
