@@ -5,18 +5,18 @@ using DG.Tweening;
 public class MenuController : MonoBehaviour
 {
     [Header("Menus")]
-    public CanvasGroup mainMenu;      // Main menu OR Pause main panel
-    public CanvasGroup optionsMenu;   // Options panel
+    public CanvasGroup mainMenu;
+    public CanvasGroup optionsMenu;
+    public CanvasGroup controlsMenu;
 
     [Header("Settings")]
     public float transitionDuration = .25f;
-    public bool isPauseController = false;   // tick this ONLY in Gameplay scene
+    public bool isPauseController = false;
 
     private bool _isPaused = false;
 
     void Start()
     {
-        // hide the rest except the main menu
         if (isPauseController)
             HideAllInstant();
         else
@@ -37,7 +37,7 @@ public class MenuController : MonoBehaviour
     }
 
     // =========================
-    // MAIN MENU TRANSITIONS
+    // MAIN MENU / PANEL TRANSITIONS
     // =========================
 
     public void OpenOptionsMenu()
@@ -45,9 +45,19 @@ public class MenuController : MonoBehaviour
         StartCoroutine(TransitionMenus(mainMenu, optionsMenu));
     }
 
-    public void BackTot()
+    public void OpenControlsMenu()
+    {
+        StartCoroutine(TransitionMenus(mainMenu, controlsMenu));
+    }
+
+    public void BackFromOptions()
     {
         StartCoroutine(TransitionMenus(optionsMenu, mainMenu));
+    }
+
+    public void BackFromControls()
+    {
+        StartCoroutine(TransitionMenus(controlsMenu, mainMenu));
     }
 
     // =========================
@@ -59,7 +69,6 @@ public class MenuController : MonoBehaviour
         _isPaused = true;
         ShowMainMenuInstant();
 
-        // pause gameplay music
         if (MusicManager.Instance != null)
             MusicManager.Instance.PauseGameplayMusic();
 
@@ -74,7 +83,6 @@ public class MenuController : MonoBehaviour
         _isPaused = false;
         HideAllInstant();
 
-        // resume gameplay music
         if (MusicManager.Instance != null)
             MusicManager.Instance.ResumeGameplayMusic();
 
@@ -86,7 +94,6 @@ public class MenuController : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-        // just in case gameplay was paused
         if (MusicManager.Instance != null)
             MusicManager.Instance.ResumeGameplayMusic();
 
@@ -117,6 +124,14 @@ public class MenuController : MonoBehaviour
         optionsMenu.interactable = false;
         optionsMenu.blocksRaycasts = false;
         optionsMenu.gameObject.SetActive(false);
+
+        if (controlsMenu != null)
+        {
+            controlsMenu.alpha = 0;
+            controlsMenu.interactable = false;
+            controlsMenu.blocksRaycasts = false;
+            controlsMenu.gameObject.SetActive(false);
+        }
     }
 
     public void HideAllInstant()
@@ -130,6 +145,14 @@ public class MenuController : MonoBehaviour
         optionsMenu.interactable = false;
         optionsMenu.blocksRaycasts = false;
         optionsMenu.gameObject.SetActive(false);
+
+        if (controlsMenu != null)
+        {
+            controlsMenu.alpha = 0;
+            controlsMenu.interactable = false;
+            controlsMenu.blocksRaycasts = false;
+            controlsMenu.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator TransitionMenus(CanvasGroup currentMenu, CanvasGroup nextMenu)

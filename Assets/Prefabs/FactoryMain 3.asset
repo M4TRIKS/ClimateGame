@@ -17,8 +17,20 @@ MonoBehaviour:
   - baseProduction: 5
     cooldown: 4
     comboMultiplier: 1
-    sprite: {fileID: 7482667652216324306, guid: 205ab1fb949acaa439d72b2802f1c059, type: 3}
+    sprite: {fileID: -4949095580148451586, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrames:
+    - {fileID: -4949095580148451586, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: 2539219653749270184, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: -5032230608251566534, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: 3676552746048992991, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrameRate: 0.2
   - baseProduction: 7
     cooldown: 3.4
     comboMultiplier: 2
-    sprite: {fileID: -5177388603050735206, guid: 2fd4003dd827ef24d9fe0b10e918c1a8, type: 3}
+    sprite: {fileID: 7118597445687480032, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrames:
+    - {fileID: 7118597445687480032, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: -3923259630577572805, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: 1561801782058507096, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    - {fileID: 4217729036990201757, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrameRate: 0.2

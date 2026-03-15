@@ -25,11 +25,13 @@ public class Tile : MonoBehaviour
     [SerializeField] private Sprite[] _sandSprites;
     [SerializeField] private Sprite[] _rockSprites;
     [SerializeField] private Sprite[] _pollutionSprites;
-    [SerializeField] private Sprite[] _fireSprites;
-
+    
+    [Header("Fire Animation")]
+    [SerializeField] private Sprite[] _fireAnimationFrames;
+    [SerializeField] private float _fireFrameRate = 0.6f;
     [Header("Water Animation")]
     [SerializeField] private Sprite[] _waterAnimationFrames;
-    [SerializeField] private float _waterFrameRate = 0.3f;
+    [SerializeField] private float _waterFrameRate = 0.5f;
 
     [Header("Fallback Colors")]
     [SerializeField] private Color _grassColor;
@@ -53,8 +55,7 @@ public class Tile : MonoBehaviour
     private float _pollutionChance = 0f;
 
     // Water animation coroutine
-    private Coroutine _waterAnimationCoroutine;
-
+    private Coroutine _tileAnimationCoroutine;
     // CALLED by grid manager
     public void ConvertToPollution()
     {
@@ -145,10 +146,10 @@ public class Tile : MonoBehaviour
         switch (_tileType)
         {
             case TileType.Sand:
-                return 1;
+                return 2;
 
             case TileType.Rock:
-                return 2;
+                return 1;
 
             case TileType.Grass:
                 return 3;
@@ -263,9 +264,9 @@ public class Tile : MonoBehaviour
     // VISUALS
     // =========================
 
-    private void UpdateTileVisual()
+   private void UpdateTileVisual()
     {
-        StopWaterAnimation();
+        StopTileAnimation();
 
         switch (_tileType)
         {
@@ -276,7 +277,7 @@ public class Tile : MonoBehaviour
 
             case TileType.Water:
                 if (_waterAnimationFrames != null && _waterAnimationFrames.Length > 0)
-                    StartWaterAnimation();
+                    StartTileAnimation(_waterAnimationFrames, _waterFrameRate);
                 else
                     SetColorOnly(_waterColor);
                 break;
@@ -297,60 +298,61 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.Fire:
-                if (!SetRandomSprite(_fireSprites))
+                if (_fireAnimationFrames != null && _fireAnimationFrames.Length > 0)
+                    StartTileAnimation(_fireAnimationFrames, _fireFrameRate);
+                else
                     SetColorOnly(_fireColor);
                 break;
         }
     }
 
     private bool SetRandomSprite(Sprite[] spriteArray)
-    {
-        if (_renderer == null) return false;
-        if (spriteArray == null || spriteArray.Length == 0) return false;
+        {
+            if (_renderer == null) return false;
+            if (spriteArray == null || spriteArray.Length == 0) return false;
 
-        int randomIndex = Random.Range(0, spriteArray.Length);
-        _renderer.sprite = spriteArray[randomIndex];
-        _renderer.color = Color.white; // important so sprite shows with original colors
-        return true;
-    }
+            int randomIndex = Random.Range(0, spriteArray.Length);
+            _renderer.sprite = spriteArray[randomIndex];
+            _renderer.color = Color.white;
+            return true;
+        }
 
     private void SetColorOnly(Color color)
-    {
-        if (_renderer == null) return;
-
-        _renderer.sprite = null;
-        _renderer.color = color;
-    }
-
-    private void StartWaterAnimation()
-    {
-        if (_renderer == null) return;
-        if (_waterAnimationFrames == null || _waterAnimationFrames.Length == 0) return;
-
-        _waterAnimationCoroutine = StartCoroutine(AnimateWater());
-    }
-
-    private void StopWaterAnimation()
-    {
-        if (_waterAnimationCoroutine != null)
         {
-            StopCoroutine(_waterAnimationCoroutine);
-            _waterAnimationCoroutine = null;
+            if (_renderer == null) return;
+
+            _renderer.sprite = null;
+            _renderer.color = color;
         }
-    }
 
-    private IEnumerator AnimateWater()
-    {
-        // random start frame so all water tiles don't move exactly the same
-        int frameIndex = Random.Range(0, _waterAnimationFrames.Length);
-
-        while (_tileType == TileType.Water)
+    private void StartTileAnimation(Sprite[] frames, float frameRate)
         {
-            _renderer.sprite = _waterAnimationFrames[frameIndex];
+            if (_renderer == null) return;
+            if (frames == null || frames.Length == 0) return;
+
+            _tileAnimationCoroutine = StartCoroutine(AnimateTile(frames, frameRate));
+        }
+
+    private void StopTileAnimation()
+        {
+            if (_tileAnimationCoroutine != null)
+            {
+                StopCoroutine(_tileAnimationCoroutine);
+                _tileAnimationCoroutine = null;
+            }
+        }
+
+    private IEnumerator AnimateTile(Sprite[] frames, float frameRate)
+    {
+        int frameIndex = Random.Range(0, frames.Length);
+
+        while (true)
+        {
+            _renderer.sprite = frames[frameIndex];
             _renderer.color = Color.white;
 
-            frameIndex = (frameIndex + 1) % _waterAnimationFrames.Length;
-            yield return new WaitForSeconds(_waterFrameRate);
+            frameIndex = (frameIndex + 1) % frames.Length;
+            yield return new WaitForSeconds(frameRate);
         }
     }
 }

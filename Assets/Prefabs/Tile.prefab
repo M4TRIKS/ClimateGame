@@ -104,15 +104,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comboPreviewHighlight: {fileID: 5439058732179559506}
-  _buildingPrefab: {fileID: 7818273969948880095, guid: 02359e9fe3ca213459340679dcd58d13, type: 3}
+  _renderer: {fileID: 2746000139834899107}
+  _highlight: {fileID: 3189567700636704219}
+  _grassSprites:
+  - {fileID: 1171007922, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 2017238446703213818, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 2778285163455461138, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1603453909, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1603453909, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1958424850, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 592726919, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -867929855, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 2132752973, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1182830103, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _sandSprites:
+  - {fileID: 162951347, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _rockSprites:
+  - {fileID: 815383431, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -690259450, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 943227272, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 400682076, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1552461470, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -920308584, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 293328398, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 781237749, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -1495083546, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _pollutionSprites:
+  - {fileID: 1264146279, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _fireAnimationFrames:
+  - {fileID: -465632928, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -585592271, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 2073618738, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _fireFrameRate: 0.6
+  _waterAnimationFrames:
+  - {fileID: -1016736881, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -822796265, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1390858779, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -408855616, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  _waterFrameRate: 0.3
   _grassColor: {r: 0.07332146, g: 0.49685526, b: 0.017186759, a: 1}
   _waterColor: {r: 0, g: 0.5338557, b: 1, a: 1}
   _sandColor: {r: 0.5647059, g: 0.6757776, b: 0.017166913, a: 1}
   _rockColor: {r: 0.48235294, g: 0.35666966, b: 0.0627451, a: 1}
   _pollutionColor: {r: 0.5231924, g: 0, b: 1, a: 1}
   _fireColor: {r: 0.40251565, g: 0.0037972545, b: 0.0037972545, a: 1}
-  _renderer: {fileID: 2746000139834899107}
-  _highlight: {fileID: 3189567700636704219}
+  _buildingPrefab: {fileID: 7818273969948880095, guid: 02359e9fe3ca213459340679dcd58d13, type: 3}
 --- !u!61 &4345454863306530347
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -169,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3763770771255074013}
   - component: {fileID: 877165477370231105}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,13 +220,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3189567700636704219}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.010122753, w: 0.9999488}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4774446871380033549}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.16}
 --- !u!212 &877165477370231105
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -232,8 +268,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 838559625
-  m_SortingLayer: 1
+  m_SortingLayerID: -645564855
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.14509805}
@@ -319,11 +355,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 838559625
-  m_SortingLayer: 1
+  m_SortingLayerID: -645564855
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.74432707, b: 0, a: 0.14509805}
+  m_Color: {r: 1, g: 0.93699515, b: 0.10196078, a: 0.40392157}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

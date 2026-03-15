@@ -224,4 +224,4 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   _minProduction: 0
-  _maxProduction: 50
+  _maxProduction: 40

@@ -134,15 +134,21 @@ public class Factory : MonoBehaviour
 
     void ApplyCurrentLevelVisuals()
     {
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         FactoryLevelData levelData = GetCurrentLevelData();
+        FactorySpriteAnimator animator = GetComponent<FactorySpriteAnimator>();
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 
-        if (renderer != null && levelData != null && levelData.sprite != null)
+        if (levelData == null) return;
+
+        if (animator != null)
+        {
+            animator.ApplyLevelVisuals(levelData);
+        }
+        else if (renderer != null && levelData.sprite != null)
         {
             renderer.sprite = levelData.sprite;
         }
     }
-
     public Vector2Int[] GetComboPattern()
     {
         if (_data == null)

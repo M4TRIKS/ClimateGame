@@ -21,8 +21,12 @@ MonoBehaviour:
   - baseProduction: 9
     cooldown: 9.8
     comboMultiplier: 0
-    sprite: {fileID: 7482667652216324306, guid: 6a436478b4fafeb4fbaf989a235984ba, type: 3}
+    sprite: {fileID: 5105663231041709718, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrames: []
+    animationFrameRate: 0.2
   - baseProduction: 25
     cooldown: 5.25
     comboMultiplier: 1.14
-    sprite: {fileID: -2620146921187900207, guid: 1e28b9619d3931d46ad03cb702084db8, type: 3}
+    sprite: {fileID: -4520719955077724263, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrames: []
+    animationFrameRate: 0.2
