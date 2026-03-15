@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class MenuController : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class MenuController : MonoBehaviour
 
     private bool _isPaused = false;
 
-    void Start()
-    {
-        HideAllInstant();
+  void Start()
+    {       //hide the rest except the main menu
+        if (isPauseController)
+            HideAllInstant();
+        else
+            ShowMainMenuInstant();
     }
+
 
     void Update()
     {
@@ -141,4 +146,7 @@ public class MenuController : MonoBehaviour
         nextMenu.interactable = true;
         nextMenu.blocksRaycasts = true;
     }
+
+
+
 }

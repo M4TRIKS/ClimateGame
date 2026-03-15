@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI _resourceText;
     [SerializeField] private TextMeshProUGUI _resourceTargetText;
-
+    [SerializeField] private Slider _targetBar;
     [Header("End game UI")]
     [SerializeField] private GameObject _endGamePanel;
     [SerializeField] private Image _endGameImage;
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (_resourceTargetText != null)
-            _resourceTargetText.text = "Target: " + _targetResources;
+            _resourceTargetText.text = "Target " + _targetResources;
 
         UpdateUI();
         SetupEndGameUI();
@@ -120,7 +122,7 @@ public class GameManager : MonoBehaviour
 
         if (_pollutionManager != null)
         {
-            _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
+            _pollutionManager.ApplyFactoryPollution(tile, 0.025f); // should I add more pollution?
         }
 
         return true;
@@ -129,10 +131,13 @@ public class GameManager : MonoBehaviour
     void UpdateUI()
     {
         if (_resourceText != null)
-            _resourceText.text = "Energy: " + _resources;
+            _resourceText.text =  _resources + "$";
 
         if (_resourceTargetText != null)
-            _resourceTargetText.text = "Target: " + _targetResources;
+            _resourceTargetText.text = "Target " + _targetResources +"$";
+
+        if (_targetBar != null)
+            _targetBar.value = (float)_resources / _targetResources;
     }
 
     void CheckWinCondition()
@@ -185,24 +190,47 @@ public class GameManager : MonoBehaviour
 
     public void ContinueGame()
     {
-        // First win: +1000
-        // Second win: +2000
-        // Third win: +4000
-        s_currentRound++;          //  increase round
-
+        s_currentRound++;
         s_currentTarget += s_nextIncrease;
         s_nextIncrease *= 2;
 
         ReloadCurrentScene();
     }
-
-    public void RestartFromBeginning()
+       public void RestartFromBeginning()
     {
-        s_currentRound = 1; 
+        s_currentRound = 1;
         s_currentTarget = _baseTargetResources;
         s_nextIncrease = 1000;
 
         ReloadCurrentScene();
+    }
+
+    public void ContinueGameWithDelay()
+    {
+        StartCoroutine(ContinueGameRoutine());
+    }
+
+    IEnumerator ContinueGameRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+
+        DOTween.KillAll();
+
+        ContinueGame();
+    }
+
+    public void RestartFromBeginningWithDelay()
+    {
+        StartCoroutine(RestartFromBeginningRoutine());
+    }
+
+    IEnumerator RestartFromBeginningRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+
+        DOTween.KillAll();
+
+        RestartFromBeginning();
     }
 
     void ReloadCurrentScene()
@@ -215,4 +243,5 @@ public class GameManager : MonoBehaviour
     {
         return s_currentRound;
     }
+    
 }
