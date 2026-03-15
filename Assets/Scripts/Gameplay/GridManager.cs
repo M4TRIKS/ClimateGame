@@ -18,7 +18,7 @@ public class GridManager : MonoBehaviour
     // Dictionary to store all spawned tiles
     // Key = position (x,y)
     // Value = Tile object at that position
-    private Dictionary<Vector2, Tile> _tiles;
+    private Dictionary<Vector2Int, Tile> _tiles;
     void Start()
     {
         GenerateGrid(); 
@@ -28,7 +28,7 @@ public class GridManager : MonoBehaviour
     void GenerateGrid()
     {
         // Initialize the dictionary before using it
-        _tiles = new Dictionary<Vector2, Tile>();
+        _tiles = new Dictionary<Vector2Int, Tile>();
 
         // Loop of tiles
         for (int x = 0; x < _width; x++)

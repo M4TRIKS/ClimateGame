@@ -2,28 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum TileType   // tipes of tiles
+public enum TileType   // types of tiles
 {
     Grass,
     Water,
     Sand,
     Rock,
-
     Pollution,
     Fire
 }
 
 public class Tile : MonoBehaviour
 {
-    [Header("visuals")]
-
+    [Header("Visuals")]
     [SerializeField] private GameObject _comboPreviewHighlight;
-    ///Factory
-    [SerializeField] private GameObject _buildingPrefab;
-    private bool _isBuilt = false;
-    private GameObject _currentBuilding;
-    // The main color of the tile
+
+    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private GameObject _highlight; // highlight when mouse is on tile
+
+    [Header("Tile Sprites")]
+    [SerializeField] private Sprite[] _grassSprites;
+    [SerializeField] private Sprite[] _sandSprites;
+    [SerializeField] private Sprite[] _rockSprites;
+    [SerializeField] private Sprite[] _pollutionSprites;
+    [SerializeField] private Sprite[] _fireSprites;
+
+    [Header("Water Animation")]
+    [SerializeField] private Sprite[] _waterAnimationFrames;
+    [SerializeField] private float _waterFrameRate = 0.3f;
+
+    [Header("Fallback Colors")]
     [SerializeField] private Color _grassColor;
     [SerializeField] private Color _waterColor;
     [SerializeField] private Color _sandColor;
@@ -31,269 +39,318 @@ public class Tile : MonoBehaviour
     [SerializeField] private Color _pollutionColor;
     [SerializeField] private Color _fireColor;
 
-    // Reference to the SpriteRenderer component (to see the tile)
-    [SerializeField] private SpriteRenderer _renderer;
+    [Header("Factory")]
+    [SerializeField] private GameObject _buildingPrefab;
 
-    // Reference to a highlight GameObject
-    [SerializeField] private GameObject _highlight;     // it will change depending if the mouse is on top
-    private Vector2Int _gridPosition; // /////////////////Remembers its X,Y 
+    private bool _isBuilt = false;
+    private GameObject _currentBuilding;
+    private Vector2Int _gridPosition;
 
-
-    public Factory CurrentFactory { get; private set; } // Lets other scripts access the factory on this tile
-    private TileType _tileType; // Stores the tile type, SHOULD I MAKE TIS PUBLIc???
+    public Factory CurrentFactory { get; private set; }
+    private TileType _tileType;
 
     // Pollution system
     private float _pollutionChance = 0f;
 
+    // Water animation coroutine
+    private Coroutine _waterAnimationCoroutine;
 
-
-
-
-
-// CALLED by grid manager
-public void ConvertToPollution()
-{
-    if (_tileType == TileType.Water) return; // not able to pollut water
-
-    _tileType = TileType.Pollution;
-    _renderer.color = _pollutionColor;
-  // Tell the existing factory it has been polluted
- 
-      
-    if (_isBuilt && CurrentFactory != null)
-        {
-    // Recalculate tile bonus if tile becomes polluted
-        CurrentFactory.Init(GetTileBonus());
-        }
-       // CurrentFactory.Init(GetTileBonus()); // Since the bonus saves at the begining once the factory is build I need to update it
-    
-
-    Debug.Log("Tile has been polluted");
-
-
-}
-
-    public void Init(TileType type, Vector2Int pos)    
+    // CALLED by grid manager
+    public void ConvertToPollution()
     {
-        _tileType = type; // stores tile for later 
-        _gridPosition = pos; //position
+        if (_tileType == TileType.Water) return; // cannot pollute water
 
-        switch (type) //checks the types of tile and gives a specific render
+        _tileType = TileType.Pollution;
+        UpdateTileVisual();
+
+        // Recalculate tile bonus if tile becomes polluted
+        if (_isBuilt && CurrentFactory != null)
         {
-            case TileType.Grass:
-                _renderer.color = _grassColor;
-                break;
-
-            case TileType.Water:
-                _renderer.color = _waterColor;
-                break;
-
-            case TileType.Sand:
-                _renderer.color = _sandColor;
-                break;
-
-            case TileType.Rock:
-                _renderer.color = _rockColor;
-                 break;
-
-            case TileType.Pollution:
-            _renderer.color = _pollutionColor;
-                break;
-             case TileType.Fire:
-            _renderer.color = _fireColor;
-    break;
+            CurrentFactory.Init(GetTileBonus());
         }
-    if (_highlight != null)
-        _highlight.SetActive(false);
 
-    if (_comboPreviewHighlight != null)
-        _comboPreviewHighlight.SetActive(false);
+        Debug.Log("Tile has been polluted");
     }
 
-//it allows what kind of tile is but without being able to change it.
+    public void Init(TileType type, Vector2Int pos)
+    {
+        _tileType = type;
+        _gridPosition = pos;
+
+        UpdateTileVisual();
+
+        if (_highlight != null)
+            _highlight.SetActive(false);
+
+        if (_comboPreviewHighlight != null)
+            _comboPreviewHighlight.SetActive(false);
+    }
+
+    // lets other scripts check the tile type without changing it
     public TileType GetTileType()
     {
         return _tileType;
     }
 
-// highlight when the mouse is on the tile
+    // highlight when the mouse is on the tile
     void OnMouseEnter()
     {
-
-        _highlight.SetActive(true);
+        if (_highlight != null)
+            _highlight.SetActive(true);
     }
 
     void OnMouseExit()
     {
-        _highlight.SetActive(false);
+        if (_highlight != null)
+            _highlight.SetActive(false);
     }
 
-
-//////////// BUILDING
+    ////////////// BUILDING
     public bool IsBuilt()
-{
-    return _isBuilt;
-}
-/// <summary>
-///  builds only if the tile is free
-/// </summary>
-public bool CanBuild()
-{
-    if (_isBuilt) return false; //if is build or not
-    if (_tileType == TileType.Water) return false; // not being able to build on water
-    if (_tileType == TileType.Fire) return false; //same with fire
-
-    return true;
-}
- 
-  /*   if (_isBuilt) return;
-    if (_tileType == TileType.Water) return; // not being able to build on water
-    */
-     /*    
-        _currentBuilding = Instantiate(_buildingPrefab, transform.position, Quaternion.identity);
-        _isBuilt = true;
-        
-         */
-
-
-public void Build(FactoryData data)
-{
-        // Spawn factory prefab (as a child of the tile)
-
-    _currentBuilding = Instantiate(_buildingPrefab, transform.position, Quaternion.identity, transform);    
-    // Save the reference to CurrentFactory so the ComboManager can upgrade it later!
-    CurrentFactory = _currentBuilding.GetComponent<Factory>();
-
-    if (CurrentFactory != null)
-    {   
-        // Give the factory its ScriptableObject data
-
-        CurrentFactory.SetData(data);     
-        // Initialize the factory with the tile bonus
-
-        CurrentFactory.Init(GetTileBonus());
-    }
-    _isBuilt = true;
-}
-
-public int GetTileBonus()
-{
-    switch (_tileType)
     {
-        case TileType.Sand:
-            return 1;
-
-        case TileType.Rock:
-            return 2;   
-
-        case TileType.Grass:
-            return 3;
-
-        case TileType.Pollution:
-        return 0;
-
-        case TileType.Fire:
-        return 0;
-        default:
-            return 0;
+        return _isBuilt;
     }
-}
-public Vector2Int GetGridPosition()
-{
-    return _gridPosition;
-}
- public void SetGridPosition(Vector2Int pos)
+
+    /// <summary>
+    /// builds only if the tile is free
+    /// </summary>
+    public bool CanBuild()
+    {
+        if (_isBuilt) return false;
+        if (_tileType == TileType.Water) return false;
+        if (_tileType == TileType.Fire) return false;
+
+        return true;
+    }
+
+    public void Build(FactoryData data)
+    {
+        // Spawn factory prefab as a child of the tile
+        _currentBuilding = Instantiate(_buildingPrefab, transform.position, Quaternion.identity, transform);
+
+        // Save the reference so ComboManager can access it later
+        CurrentFactory = _currentBuilding.GetComponent<Factory>();
+
+        if (CurrentFactory != null)
+        {
+            CurrentFactory.SetData(data);
+            CurrentFactory.Init(GetTileBonus());
+        }
+
+        _isBuilt = true;
+    }
+
+    public int GetTileBonus()
+    {
+        switch (_tileType)
+        {
+            case TileType.Sand:
+                return 1;
+
+            case TileType.Rock:
+                return 2;
+
+            case TileType.Grass:
+                return 3;
+
+            case TileType.Pollution:
+                return 0;
+
+            case TileType.Fire:
+                return 0;
+
+            default:
+                return 0;
+        }
+    }
+
+    public Vector2Int GetGridPosition()
+    {
+        return _gridPosition;
+    }
+
+    public void SetGridPosition(Vector2Int pos)
     {
         _gridPosition = pos;
     }
 
-///
-/////////////////////////////POLLUTION
-/// ///
+    ///////////////////////////// POLLUTION
     public void AddPollutionChance(float amount)
-{
-    if (_tileType == TileType.Water) return;
-    if (_tileType == TileType.Pollution) return;
-
-    _pollutionChance += amount;
-
-    // clamp so it never exceeds 100%
-    _pollutionChance = Mathf.Clamp(_pollutionChance, 0f, 1f);
-
-    TryPollute();
-}
-private void TryPollute()
-/////////EVERYTIME IT GETS UPGRADED OR THERE IS A NEW FACTORY IT COULD BE POLLUTED 
-{
-    float roll = Random.value; // random number between 0 and 1
-
-    if (roll <= _pollutionChance)
     {
-        ConvertToPollution();
-    }
-}
+        if (_tileType == TileType.Water) return;
+        if (_tileType == TileType.Pollution) return;
 
+        _pollutionChance += amount;
 
-/// combo preview
-public void ShowComboPreview()
-{
-    if (_comboPreviewHighlight != null)
-        _comboPreviewHighlight.SetActive(true);
-}
+        // Clamp so it never exceeds 100%
+        _pollutionChance = Mathf.Clamp(_pollutionChance, 0f, 1f);
 
-public void HideComboPreview()
-{
-    if (_comboPreviewHighlight != null)
-        _comboPreviewHighlight.SetActive(false);
-}
-/// <summary>
-/// ////////////////////////////////////FIRE EVENT METHODS
-/// </summary>
-public void ConvertToFire()
-{
-    if (_tileType == TileType.Water) return;
-    if (_tileType == TileType.Fire) return;
-
-    _tileType = TileType.Fire;
-    _renderer.color = _fireColor;
-
-    if (_isBuilt)
-    {
-        DestroyBuilding();
+        TryPollute();
     }
 
-    Debug.Log($"Tile {name} is now on fire!");
-
-    
-}
-public void DestroyBuilding()
-{
-    if (_currentBuilding != null)
+    private void TryPollute()
     {
-        Destroy(_currentBuilding);
+        // Every time pollution is added, the tile has a chance to become polluted
+        float roll = Random.value;
+
+        if (roll <= _pollutionChance)
+        {
+            ConvertToPollution();
+        }
     }
 
-    _currentBuilding = null;
-    CurrentFactory = null;
-    _isBuilt = false;
-}
-
-
-
-////// water event
-
-public void ConvertToWater()
-{
-    if (_tileType == TileType.Water) return;
-
-    _tileType = TileType.Water;
-    _renderer.color = _waterColor;
-
-    if (_isBuilt)
+    /// combo preview
+    public void ShowComboPreview()
     {
-        DestroyBuilding();
+        if (_comboPreviewHighlight != null)
+            _comboPreviewHighlight.SetActive(true);
     }
 
-    Debug.Log($"Tile {name} has been flooded!");
-}
+    public void HideComboPreview()
+    {
+        if (_comboPreviewHighlight != null)
+            _comboPreviewHighlight.SetActive(false);
+    }
+
+    /// <summary>
+    /// FIRE EVENT METHODS
+    /// </summary>
+    public void ConvertToFire()
+    {
+        if (_tileType == TileType.Water) return;
+        if (_tileType == TileType.Fire) return;
+
+        _tileType = TileType.Fire;
+        UpdateTileVisual();
+
+        if (_isBuilt)
+        {
+            DestroyBuilding();
+        }
+
+        Debug.Log($"Tile {name} is now on fire!");
+    }
+
+    public void DestroyBuilding()
+    {
+        if (_currentBuilding != null)
+        {
+            Destroy(_currentBuilding);
+        }
+
+        _currentBuilding = null;
+        CurrentFactory = null;
+        _isBuilt = false;
+    }
+
+    ////// water event
+    public void ConvertToWater()
+    {
+        if (_tileType == TileType.Water) return;
+
+        _tileType = TileType.Water;
+        UpdateTileVisual();
+
+        if (_isBuilt)
+        {
+            DestroyBuilding();
+        }
+
+        Debug.Log($"Tile {name} has been flooded!");
+    }
+
+    // =========================
+    // VISUALS
+    // =========================
+
+    private void UpdateTileVisual()
+    {
+        StopWaterAnimation();
+
+        switch (_tileType)
+        {
+            case TileType.Grass:
+                if (!SetRandomSprite(_grassSprites))
+                    SetColorOnly(_grassColor);
+                break;
+
+            case TileType.Water:
+                if (_waterAnimationFrames != null && _waterAnimationFrames.Length > 0)
+                    StartWaterAnimation();
+                else
+                    SetColorOnly(_waterColor);
+                break;
+
+            case TileType.Sand:
+                if (!SetRandomSprite(_sandSprites))
+                    SetColorOnly(_sandColor);
+                break;
+
+            case TileType.Rock:
+                if (!SetRandomSprite(_rockSprites))
+                    SetColorOnly(_rockColor);
+                break;
+
+            case TileType.Pollution:
+                if (!SetRandomSprite(_pollutionSprites))
+                    SetColorOnly(_pollutionColor);
+                break;
+
+            case TileType.Fire:
+                if (!SetRandomSprite(_fireSprites))
+                    SetColorOnly(_fireColor);
+                break;
+        }
+    }
+
+    private bool SetRandomSprite(Sprite[] spriteArray)
+    {
+        if (_renderer == null) return false;
+        if (spriteArray == null || spriteArray.Length == 0) return false;
+
+        int randomIndex = Random.Range(0, spriteArray.Length);
+        _renderer.sprite = spriteArray[randomIndex];
+        _renderer.color = Color.white; // important so sprite shows with original colors
+        return true;
+    }
+
+    private void SetColorOnly(Color color)
+    {
+        if (_renderer == null) return;
+
+        _renderer.sprite = null;
+        _renderer.color = color;
+    }
+
+    private void StartWaterAnimation()
+    {
+        if (_renderer == null) return;
+        if (_waterAnimationFrames == null || _waterAnimationFrames.Length == 0) return;
+
+        _waterAnimationCoroutine = StartCoroutine(AnimateWater());
+    }
+
+    private void StopWaterAnimation()
+    {
+        if (_waterAnimationCoroutine != null)
+        {
+            StopCoroutine(_waterAnimationCoroutine);
+            _waterAnimationCoroutine = null;
+        }
+    }
+
+    private IEnumerator AnimateWater()
+    {
+        // random start frame so all water tiles don't move exactly the same
+        int frameIndex = Random.Range(0, _waterAnimationFrames.Length);
+
+        while (_tileType == TileType.Water)
+        {
+            _renderer.sprite = _waterAnimationFrames[frameIndex];
+            _renderer.color = Color.white;
+
+            frameIndex = (frameIndex + 1) % _waterAnimationFrames.Length;
+            yield return new WaitForSeconds(_waterFrameRate);
+        }
+    }
 }

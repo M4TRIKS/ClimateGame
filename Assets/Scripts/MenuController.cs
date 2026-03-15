@@ -14,14 +14,14 @@ public class MenuController : MonoBehaviour
 
     private bool _isPaused = false;
 
-  void Start()
-    {       //hide the rest except the main menu
+    void Start()
+    {
+        // hide the rest except the main menu
         if (isPauseController)
             HideAllInstant();
         else
             ShowMainMenuInstant();
     }
-
 
     void Update()
     {
@@ -59,6 +59,10 @@ public class MenuController : MonoBehaviour
         _isPaused = true;
         ShowMainMenuInstant();
 
+        // pause gameplay music
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PauseGameplayMusic();
+
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.PauseGame();
         else
@@ -70,6 +74,10 @@ public class MenuController : MonoBehaviour
         _isPaused = false;
         HideAllInstant();
 
+        // resume gameplay music
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.ResumeGameplayMusic();
+
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.ResumeGame();
         else
@@ -78,6 +86,10 @@ public class MenuController : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        // just in case gameplay was paused
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.ResumeGameplayMusic();
+
         if (SceneLoader.Instance != null)
         {
             SceneLoader.Instance.ResumeGame();
@@ -146,7 +158,4 @@ public class MenuController : MonoBehaviour
         nextMenu.interactable = true;
         nextMenu.blocksRaycasts = true;
     }
-
-
-
 }

@@ -68,19 +68,15 @@ public class GameManager : MonoBehaviour
         if (_endGamePanel != null)
             _endGamePanel.SetActive(false);
 
-        if (_continueButton != null)
-        {
-            _continueButton.onClick.RemoveAllListeners();
-            _continueButton.onClick.AddListener(ContinueGame);
-            _continueButton.gameObject.SetActive(false);
-        }
+    if (_continueButton != null)
+    {
+        _continueButton.gameObject.SetActive(false);
+    }
 
-        if (_restartButton != null)
-        {
-            _restartButton.onClick.RemoveAllListeners();
-            _restartButton.onClick.AddListener(RestartFromBeginning);
-            _restartButton.gameObject.SetActive(false);
-        }
+    if (_restartButton != null)
+    {
+        _restartButton.gameObject.SetActive(false);
+    }
     }
 
     public void AddResources(int amount)
@@ -205,33 +201,6 @@ public class GameManager : MonoBehaviour
         ReloadCurrentScene();
     }
 
-    public void ContinueGameWithDelay()
-    {
-        StartCoroutine(ContinueGameRoutine());
-    }
-
-    IEnumerator ContinueGameRoutine()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-
-        DOTween.KillAll();
-
-        ContinueGame();
-    }
-
-    public void RestartFromBeginningWithDelay()
-    {
-        StartCoroutine(RestartFromBeginningRoutine());
-    }
-
-    IEnumerator RestartFromBeginningRoutine()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-
-        DOTween.KillAll();
-
-        RestartFromBeginning();
-    }
 
     void ReloadCurrentScene()
     {
