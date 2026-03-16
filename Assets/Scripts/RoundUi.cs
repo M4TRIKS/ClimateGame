@@ -12,7 +12,7 @@ public class RoundUi : MonoBehaviour
 
     void UpdateRound()
     {
-        int round = GameManager.GetCurrentRound();
+        int round = GameManager.GetCurrentRound(); // get round from GameManager
         _roundText.text = "ROUND " + round;
     }
 }

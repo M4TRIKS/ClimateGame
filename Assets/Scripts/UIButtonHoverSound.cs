@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+
 /// <summary>
 /// with animation as well ( probably I wont remember)
 /// </summary>
@@ -21,7 +22,7 @@ public class UIButtonHoverFeedback : MonoBehaviour, IPointerEnterHandler, IPoint
     void Awake()
     {
         _audio = GetComponent<AudioSource>();
-        _originalScale = transform.localScale;
+        _originalScale = transform.localScale; // save normal size
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -41,6 +42,7 @@ public class UIButtonHoverFeedback : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        // stop previous tween
         if (_scaleTween != null && _scaleTween.IsActive())
             _scaleTween.Kill();
 
@@ -51,6 +53,7 @@ public class UIButtonHoverFeedback : MonoBehaviour, IPointerEnterHandler, IPoint
 
     void OnDestroy()
     {
+        // clean tween if object is destroyed
         if (_scaleTween != null && _scaleTween.IsActive())
             _scaleTween.Kill();
     }

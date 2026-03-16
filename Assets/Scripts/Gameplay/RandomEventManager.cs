@@ -42,12 +42,14 @@ public class RandomEventManager : MonoBehaviour
             EventType.Flood
         };
 
+        // choose random disaster
         _selectedEvent = possibleEvents[Random.Range(0, possibleEvents.Length)];
         Debug.Log("Selected event: " + _selectedEvent);
     }
 
     IEnumerator RunSelectedEvent()
     {
+        // wait and start chosen event
         if (_selectedEvent == EventType.Fire)
         {
             yield return new WaitForSeconds(_fireStartDelay);
@@ -102,6 +104,7 @@ public class RandomEventManager : MonoBehaviour
 
     Tile GetNextSpreadTileFromFireChain()
     {
+        // check last fire tiles first
         for (int i = _fireTiles.Count - 1; i >= 0; i--)
         {
             Tile sourceTile = _fireTiles[i];
@@ -193,6 +196,7 @@ public class RandomEventManager : MonoBehaviour
     {
         List<Tile> waterTiles = new List<Tile>();
 
+        // collect all current water tiles
         foreach (Tile tile in _gridManager.GetAllTiles())
         {
             if (tile != null && tile.GetTileType() == TileType.Water)
@@ -247,6 +251,7 @@ public class RandomEventManager : MonoBehaviour
 
     void ShuffleDirections(List<Vector2Int> list)
     {
+        // randomize direction order
         for (int i = 0; i < list.Count; i++)
         {
             int randomIndex = Random.Range(i, list.Count);
@@ -258,6 +263,7 @@ public class RandomEventManager : MonoBehaviour
 
     void ShuffleTiles(List<Tile> list)
     {
+        // randomize tile order
         for (int i = 0; i < list.Count; i++)
         {
             int randomIndex = Random.Range(i, list.Count);

@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        // if this is pause menu, hide everything at start
         if (isPauseController)
             HideAllInstant();
         else
@@ -25,6 +26,7 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
+        // only pause menu reacts to Escape
         if (!isPauseController) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -69,9 +71,11 @@ public class MenuController : MonoBehaviour
         _isPaused = true;
         ShowMainMenuInstant();
 
+        // pause gameplay music
         if (MusicManager.Instance != null)
             MusicManager.Instance.PauseGameplayMusic();
 
+        // pause game
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.PauseGame();
         else
@@ -83,9 +87,11 @@ public class MenuController : MonoBehaviour
         _isPaused = false;
         HideAllInstant();
 
+        // resume music
         if (MusicManager.Instance != null)
             MusicManager.Instance.ResumeGameplayMusic();
 
+        // resume game
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.ResumeGame();
         else
@@ -94,6 +100,7 @@ public class MenuController : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        // make sure music and time are normal
         if (MusicManager.Instance != null)
             MusicManager.Instance.ResumeGameplayMusic();
 
@@ -115,16 +122,19 @@ public class MenuController : MonoBehaviour
 
     public void ShowMainMenuInstant()
     {
+        // show main menu
         mainMenu.alpha = 1;
         mainMenu.interactable = true;
         mainMenu.blocksRaycasts = true;
         mainMenu.gameObject.SetActive(true);
 
+        // hide options
         optionsMenu.alpha = 0;
         optionsMenu.interactable = false;
         optionsMenu.blocksRaycasts = false;
         optionsMenu.gameObject.SetActive(false);
 
+        // hide controls if exists
         if (controlsMenu != null)
         {
             controlsMenu.alpha = 0;
@@ -136,16 +146,19 @@ public class MenuController : MonoBehaviour
 
     public void HideAllInstant()
     {
+        // hide main menu
         mainMenu.alpha = 0;
         mainMenu.interactable = false;
         mainMenu.blocksRaycasts = false;
         mainMenu.gameObject.SetActive(false);
 
+        // hide options
         optionsMenu.alpha = 0;
         optionsMenu.interactable = false;
         optionsMenu.blocksRaycasts = false;
         optionsMenu.gameObject.SetActive(false);
 
+        // hide controls
         if (controlsMenu != null)
         {
             controlsMenu.alpha = 0;
@@ -160,6 +173,7 @@ public class MenuController : MonoBehaviour
         float timer = 0f;
         nextMenu.gameObject.SetActive(true);
 
+        // fade from one menu to the other
         while (timer < transitionDuration)
         {
             timer += Time.unscaledDeltaTime;
@@ -171,6 +185,7 @@ public class MenuController : MonoBehaviour
             yield return null;
         }
 
+        // final values
         currentMenu.alpha = 0;
         nextMenu.alpha = 1;
 

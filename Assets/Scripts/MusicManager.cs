@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
+    // singleton
     public static MusicManager Instance;
 
     [Header("Music Clips")]
@@ -15,6 +16,7 @@ public class MusicManager : MonoBehaviour
 
     void Awake()
     {
+        // keep only one music manager
         if (Instance == null)
         {
             Instance = this;
@@ -30,11 +32,13 @@ public class MusicManager : MonoBehaviour
         _audio.loop = true;
         _audio.playOnAwake = false;
 
+        // listen for scene changes
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // choose music based on scene
         if (scene.name == "MainMenu")
         {
             _isGameplayScene = false;
@@ -49,6 +53,7 @@ public class MusicManager : MonoBehaviour
 
     void PlayMusic(AudioClip clip)
     {
+        // avoid replaying same song
         if (_audio.clip == clip) return;
 
         _audio.clip = clip;

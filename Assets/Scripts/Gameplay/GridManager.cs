@@ -78,4 +78,7 @@ public class GridManager : MonoBehaviour
 {
     return _tiles.Values; //returns the dictionary values
 }
+//camera fixes
+    public int Width => _width;
+    public int Height => _height;
 }

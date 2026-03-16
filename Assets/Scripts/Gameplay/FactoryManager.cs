@@ -29,61 +29,64 @@ public class FactoryManager : MonoBehaviour
         RollNextFactory();
     }
 
-  void Update()
-{
-    if (IsInputBlocked())
+    void Update()
     {
-        if (_dragging)
+        // stop dragging if game is paused or ended
+        if (IsInputBlocked())
+        {
+            if (_dragging)
+            {
+                CancelDrag();
+            }
+            return;
+        }
+
+        if (!_dragging) return;
+
+        var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = mousePosition - _offset;
+
+        UpdateComboPreview();
+    }
+
+    void OnMouseDown()
+    {
+        if (IsInputBlocked()) return;
+
+        _dragging = true;
+        ClearComboPreview();
+
+        if (_source != null && _pickUpClip != null)
+            _source.PlayOneShot(_pickUpClip);
+
+        _offset = GetMousePos() - (Vector2)transform.position;
+
+        // disable collider while dragging
+        if (_collider != null)
+            _collider.enabled = false;
+    }
+
+    void OnMouseUp()
+    {
+        if (IsInputBlocked())
         {
             CancelDrag();
+            return;
         }
-        return;
+
+        SpawnFactories();
+        ClearComboPreview();
+
+        // return draggable object to original place
+        transform.position = _originalPosition;
+        _dragging = false;
+
+        if (_collider != null)
+            _collider.enabled = true;
+
+        if (_source != null && _dropClip != null)
+            _source.PlayOneShot(_dropClip);
     }
-
-    if (!_dragging) return;
-
-    var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    transform.position = mousePosition - _offset;
-
-    UpdateComboPreview();
-}
-
-void OnMouseDown()
-{
-    if (IsInputBlocked()) return;
-
-    _dragging = true;
-    ClearComboPreview();
-
-    if (_source != null && _pickUpClip != null)
-        _source.PlayOneShot(_pickUpClip);
-
-    _offset = GetMousePos() - (Vector2)transform.position;
-
-    if (_collider != null)
-        _collider.enabled = false;
-}
-
-void OnMouseUp()
-{
-    if (IsInputBlocked())
-    {
-        CancelDrag();
-        return;
-    }
-
-    SpawnFactories();
-    ClearComboPreview();
-
-    transform.position = _originalPosition;
-    _dragging = false;
-
-    if (_collider != null)
-        _collider.enabled = true;
-
-    if (_source != null && _dropClip != null)
-        _source.PlayOneShot(_dropClip);
-}
 
     Vector2 GetMousePos()
     {
@@ -111,6 +114,7 @@ void OnMouseUp()
 
         if (success)
         {
+            // choose next factory only if build succeeded
             RollNextFactory();
         }
         else
@@ -128,6 +132,7 @@ void OnMouseUp()
             return;
         }
 
+        // ignore null entries in pool
         var validFactories = System.Array.FindAll(_factoryPool, f => f != null);
 
         if (validFactories.Length == 0)
@@ -137,8 +142,10 @@ void OnMouseUp()
             return;
         }
 
+        // pick random factory
         _currentFactoryData = validFactories[Random.Range(0, validFactories.Length)];
 
+        // show first level sprite in draggable preview
         if (_renderer != null &&
             _currentFactoryData.levels != null &&
             _currentFactoryData.levels.Length > 0 &&
@@ -163,6 +170,7 @@ void OnMouseUp()
 
         if (centerTile == null) return;
 
+        // show preview on all pattern tiles
         foreach (Vector2Int offset in _currentFactoryData.comboPattern)
         {
             Tile targetTile = _gridManager.GetTileAtPosition(centerTile.GetGridPosition() + offset);
@@ -186,28 +194,27 @@ void OnMouseUp()
         _previewTiles.Clear();
     }
 
-
     /// <summary>
     /// /problem of keep draging while paused
     /// </summary>
-    /// <returns></returns>
     bool IsInputBlocked()
-{
-    if (_gameManager != null && _gameManager.IsGameEnded)
-        return true;
+    {
+        if (_gameManager != null && _gameManager.IsGameEnded)
+            return true;
 
-    if (Time.timeScale == 0f)
-        return true;
+        if (Time.timeScale == 0f)
+            return true;
 
-    return false;
-}
-void CancelDrag()
-{
-    ClearComboPreview();
-    transform.position = _originalPosition;
-    _dragging = false;
+        return false;
+    }
 
-    if (_collider != null)
-        _collider.enabled = true;
-}
+    void CancelDrag()
+    {
+        ClearComboPreview();
+        transform.position = _originalPosition;
+        _dragging = false;
+
+        if (_collider != null)
+            _collider.enabled = true;
+    }
 }

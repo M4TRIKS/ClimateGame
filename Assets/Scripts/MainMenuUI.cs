@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-
     /// <summary>
     /// to just choose the surviing script 
     /// </summary>
@@ -10,6 +9,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void StartGame()
     {
+        // load gameplay scene
         if (SceneLoader.Instance != null)
         {
             SceneLoader.Instance.LoadScene(_gameplaySceneName);
@@ -22,6 +22,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void QuitGame()
     {
+        // quit application
         if (SceneLoader.Instance != null)
         {
             SceneLoader.Instance.QuitGame();

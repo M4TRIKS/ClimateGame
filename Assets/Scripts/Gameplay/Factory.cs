@@ -4,14 +4,15 @@ public class Factory : MonoBehaviour
 {
     [SerializeField] private FactoryData _data;
     [SerializeField] private ResourcePopup _resourcePopupPrefab;
-//not exploit the same combo
+
+    //not exploit the same combo
     private bool _comboCompleted = false;
+
     private int _tileBonus;
     private int _level = 0; // 0 = first level in array
     private float _timer;
     private bool _comboActive = false;
     private GameManager _gameManager;
-
 
     public void Init(int tileBonus)
     {
@@ -31,12 +32,12 @@ public class Factory : MonoBehaviour
         if (_data == null) return;
         if (_gameManager != null && _gameManager.IsGameEnded) return;
 
-
         FactoryLevelData levelData = GetCurrentLevelData();
         if (levelData == null) return;
 
         _timer += Time.deltaTime;
 
+        // produce when cooldown finishes
         if (_timer >= levelData.cooldown)
         {
             Produce();
@@ -46,7 +47,6 @@ public class Factory : MonoBehaviour
 
     void Produce()
     {
-       
         Tile tile = GetComponentInParent<Tile>();
 
         if (tile == null)
@@ -55,6 +55,7 @@ public class Factory : MonoBehaviour
             return;
         }
 
+        // polluted tiles do not produce
         if (tile.GetTileType() == TileType.Pollution)
             return;
 
@@ -67,21 +68,25 @@ public class Factory : MonoBehaviour
         FactoryLevelData levelData = GetCurrentLevelData();
         if (levelData == null) return;
 
+        // base production + terrain bonus
         int total = levelData.baseProduction + _tileBonus;
 
+        // apply combo bonus
         if (_comboActive)
         {
             total = Mathf.RoundToInt(total * levelData.comboMultiplier);
         }
+
         _gameManager.AddResources(total);
 
+        // show popup text
         if (_resourcePopupPrefab != null)
         {
             ResourcePopup.Create(_resourcePopupPrefab, transform.position + Vector3.up * 0.5f, total);
         }
-        if (_gameManager != null && _gameManager.IsGameEnded)
-        return;
 
+        if (_gameManager != null && _gameManager.IsGameEnded)
+            return;
     }
 
     public void ActivateCombo()
@@ -140,6 +145,7 @@ public class Factory : MonoBehaviour
 
         if (levelData == null) return;
 
+        // use animator if script exists, otherwise use static sprite
         if (animator != null)
         {
             animator.ApplyLevelVisuals(levelData);
@@ -149,6 +155,7 @@ public class Factory : MonoBehaviour
             renderer.sprite = levelData.sprite;
         }
     }
+
     public Vector2Int[] GetComboPattern()
     {
         if (_data == null)
@@ -177,12 +184,12 @@ public class Factory : MonoBehaviour
     }
     
     public bool HasCompletedCombo()
-{
-    return _comboCompleted;
-}
+    {
+        return _comboCompleted;
+    }
 
-public void MarkComboCompleted()
-{
-    _comboCompleted = true;
-}
+    public void MarkComboCompleted()
+    {
+        _comboCompleted = true;
+    }
 }

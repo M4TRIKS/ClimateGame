@@ -8,13 +8,14 @@ public class ComboManager : MonoBehaviour
     {
         if (_gridManager == null) return;
 
+        // check combo for every tile
         foreach (Tile tile in _gridManager.GetAllTiles())
         {
             CheckFactoryCombo(tile);
         }
     }
 
-  public void CheckFactoryCombo(Tile centerTile)
+    public void CheckFactoryCombo(Tile centerTile)
     {
         if (centerTile == null || _gridManager == null)
             return;
@@ -24,6 +25,7 @@ public class ComboManager : MonoBehaviour
         if (centerFactory == null)
             return;
 
+        // don't repeat same combo
         if (centerFactory.HasCompletedCombo())
             return;
 
@@ -34,6 +36,7 @@ public class ComboManager : MonoBehaviour
 
         Vector2Int centerPos = centerTile.GetGridPosition();
 
+        // check if all required tiles have factories
         foreach (Vector2Int offset in pattern)
         {
             Tile t = _gridManager.GetTileAtPosition(centerPos + offset);
@@ -42,10 +45,12 @@ public class ComboManager : MonoBehaviour
                 return;
         }
 
+        // combo complete: activate and upgrade center
         centerFactory.ActivateCombo();
         centerFactory.Upgrade();
         centerFactory.MarkComboCompleted();
 
+        // activate and upgrade neighbor factories
         foreach (Vector2Int offset in pattern)
         {
             Tile t = _gridManager.GetTileAtPosition(centerPos + offset);
