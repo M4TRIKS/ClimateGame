@@ -10,6 +10,23 @@ public class FactoryManager : MonoBehaviour
 
     [SerializeField] private FactoryData[] _factoryPool;
     [SerializeField] private SpriteRenderer _renderer;
+    //draging animation
+    [Header("Drag Visuals")]
+
+    [SerializeField] private float _dragScaleMultiplier = 0.8f;
+    [SerializeField] private float _dragAlpha = 0.6f;
+    [Header("Drag Motion")]
+    [SerializeField] private float _followSmoothness = 15f;
+    [SerializeField] private float _maxTiltAngle = 15f;
+    [SerializeField] private float _tiltStrength = 2f;
+    [SerializeField] private float _rotationSmoothness = 10f;
+
+
+    private Vector3 _originalScale;
+    private Color _originalColor;
+    private Quaternion _originalRotation;
+    private Vector3 _dragVelocity;
+    private Vector3 _lastMouseWorldPos;
 
     private Collider2D _collider;
     private bool _dragging;
@@ -25,6 +42,14 @@ public class FactoryManager : MonoBehaviour
 
         if (_renderer == null)
             _renderer = GetComponent<SpriteRenderer>();
+
+        // saving the original values of the factorie
+        _originalScale = transform.localScale;
+        _originalRotation = transform.rotation;
+
+
+        if (_renderer != null)
+        _originalColor = _renderer.color;
 
         RollNextFactory();
     }
@@ -43,27 +68,59 @@ public class FactoryManager : MonoBehaviour
 
         if (!_dragging) return;
 
-        var mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition - _offset;
+        Vector3 mousePosition = GetMousePos() - _offset;
+
+        // smooth movement
+        transform.position = Vector3.Lerp(
+            transform.position,
+            mousePosition,
+            _followSmoothness * Time.deltaTime
+        );
+
+        // calculate mouse movement speed
+        Vector3 currentMouseWorldPos = GetMousePos();
+        Vector3 mouseDelta = currentMouseWorldPos - _lastMouseWorldPos;
+
+        // tilt depending on horizontal movement
+        float targetZRotation = Mathf.Clamp(
+            -mouseDelta.x * _tiltStrength * 100f,
+            -_maxTiltAngle,
+            _maxTiltAngle
+        );
+
+        Quaternion targetRotation = Quaternion.Euler(0f, 0f, targetZRotation);
+
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            targetRotation,
+            _rotationSmoothness * Time.deltaTime
+        );
+
+        _lastMouseWorldPos = currentMouseWorldPos;
 
         UpdateComboPreview();
     }
+    
 
     void OnMouseDown()
     {
         if (IsInputBlocked()) return;
 
         _dragging = true;
+        ApplyDragVisuals(true);
         ClearComboPreview();
 
         if (_source != null && _pickUpClip != null)
             _source.PlayOneShot(_pickUpClip);
 
         _offset = GetMousePos() - (Vector2)transform.position;
+        _lastMouseWorldPos = GetMousePos();
+
 
         // disable collider while dragging
         if (_collider != null)
             _collider.enabled = false;
+
     }
 
     void OnMouseUp()
@@ -80,6 +137,8 @@ public class FactoryManager : MonoBehaviour
         // return draggable object to original place
         transform.position = _originalPosition;
         _dragging = false;
+        ApplyDragVisuals(false);
+        
 
         if (_collider != null)
             _collider.enabled = true;
@@ -153,6 +212,11 @@ public class FactoryManager : MonoBehaviour
         {
             _renderer.sprite = _currentFactoryData.levels[0].sprite;
         }
+        if (_renderer != null)
+        {
+            _renderer.color = new Color(1f, 1f, 1f, 1f);
+            _originalColor = _renderer.color;
+        }
     }
 
     void UpdateComboPreview()
@@ -213,8 +277,31 @@ public class FactoryManager : MonoBehaviour
         ClearComboPreview();
         transform.position = _originalPosition;
         _dragging = false;
+        ApplyDragVisuals(false);
 
         if (_collider != null)
             _collider.enabled = true;
     }
+
+    void ApplyDragVisuals(bool isDragging)
+{
+    if (_renderer == null) return;
+
+    if (isDragging)
+    {
+        transform.localScale = _originalScale * _dragScaleMultiplier;
+
+        Color color = _renderer.color;
+        color.a = _dragAlpha;
+        _renderer.color = color;
+    }
+    else
+    {
+        transform.localScale = _originalScale;
+        _renderer.color = _originalColor;
+        transform.rotation = _originalRotation;
+
+    }
+}
+
 }
