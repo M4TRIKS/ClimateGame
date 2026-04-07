@@ -149,6 +149,8 @@ MonoBehaviour:
   _pollutionColor: {r: 0.5231924, g: 0, b: 1, a: 1}
   _fireColor: {r: 0.40251565, g: 0.0037972545, b: 0.0037972545, a: 1}
   _buildingPrefab: {fileID: 7818273969948880095, guid: 02359e9fe3ca213459340679dcd58d13, type: 3}
+  _buildEffectPrefab: {fileID: 7349930554828649295, guid: 7bc746202f40a8c4584b32e7992e12ac, type: 3}
+  _buildEffectOffset: {x: 0, y: 0, z: 0}
 --- !u!61 &4345454863306530347
 BoxCollider2D:
   m_ObjectHideFlags: 0

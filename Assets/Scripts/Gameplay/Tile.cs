@@ -43,6 +43,9 @@ public class Tile : MonoBehaviour
 
     [Header("Factory")]
     [SerializeField] private GameObject _buildingPrefab;
+    [Header("Build Particles")]
+    [SerializeField] private ParticleSystem _buildEffectPrefab;
+    [SerializeField] private Vector3 _buildEffectOffset = Vector3.zero;
 
     private bool _isBuilt = false;
     private GameObject _currentBuilding;
@@ -131,6 +134,8 @@ public class Tile : MonoBehaviour
 
         // Save the reference so ComboManager can access it later
         CurrentFactory = _currentBuilding.GetComponent<Factory>();
+        //particles
+        SpawnBuildEffect();
 
         if (CurrentFactory != null)
         {
@@ -355,4 +360,15 @@ public class Tile : MonoBehaviour
             yield return new WaitForSeconds(frameRate);
         }
     }
+    void SpawnBuildEffect()
+{
+    if (_buildEffectPrefab == null) return;
+
+    ParticleSystem effect = Instantiate(
+        _buildEffectPrefab,
+        transform.position + _buildEffectOffset,
+        Quaternion.identity
+    );
+
+}
 }

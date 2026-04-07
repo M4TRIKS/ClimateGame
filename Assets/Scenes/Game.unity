@@ -1464,6 +1464,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1603,6 +1604,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridManager: {fileID: 1462486077}
   _padding: 1
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1440c67c1d9184692b150826de03cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultDuration: 0.15
+  _defaultStrength: 0.15
 --- !u!1 &539795165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,7 +1866,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000008967fb31497685d9a312f278e31e73c2
+  m_ApplyToSortingLayers: 000000008967fb31497685d9a312f278e31e73c2ad3a2e4d
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1938,7 +1953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 320, y: 160}
+  m_AnchoredPosition: {x: 319.82, y: 159.89}
   m_SizeDelta: {x: 640, y: 320}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &665633471
@@ -2304,7 +2319,7 @@ MonoBehaviour:
   _dragAlpha: 0.92
   _followSmoothness: 118.5
   _maxTiltAngle: 70
-  _tiltStrength: 5.42
+  _tiltStrength: 5.92
   _rotationSmoothness: 13.12
 --- !u!82 &712747752
 AudioSource:
@@ -2569,6 +2584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridManager: {fileID: 1462486077}
+  _cameraShake: {fileID: 519420034}
 --- !u!4 &742779407
 Transform:
   m_ObjectHideFlags: 0
@@ -4296,50 +4312,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1353323102
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1353323104}
-  - component: {fileID: 1353323103}
-  m_Layer: 0
-  m_Name: CameraShakeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1353323103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353323102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1440c67c1d9184692b150826de03cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1353323104
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353323102}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.37278, y: 4.0156965, z: 0.04657851}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1361502431
 GameObject:
   m_ObjectHideFlags: 0
@@ -7048,17 +7020,16 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1642257412}
   - {fileID: 1462486078}
   - {fileID: 742779407}
   - {fileID: 903095660}
   - {fileID: 94855629}
+  - {fileID: 519420032}
   - {fileID: 712747746}
   - {fileID: 355583537}
   - {fileID: 1281671896}
   - {fileID: 109088714}
-  - {fileID: 1353323104}
   - {fileID: 1388204790}
   - {fileID: 1589501447}

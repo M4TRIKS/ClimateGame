@@ -4,7 +4,9 @@ public class CameraAutoFit : MonoBehaviour
 {
     [SerializeField] private GridManager _gridManager;
     [SerializeField] private float _padding = 1f;
-
+/// <summary>
+/// /// check grid manager  _cam to see the position (I know its messy but if it works it works)
+/// </summary>
     void Start()
     {
         FitCamera();

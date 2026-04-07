@@ -3,6 +3,7 @@ using UnityEngine;
 public class ComboManager : MonoBehaviour
 {
     [SerializeField] private GridManager _gridManager;
+    [SerializeField] private CameraShake _cameraShake;
 
     public void CheckAllCombos()
     {
@@ -49,6 +50,11 @@ public class ComboManager : MonoBehaviour
         centerFactory.ActivateCombo();
         centerFactory.Upgrade();
         centerFactory.MarkComboCompleted();
+        if (_cameraShake != null)
+        {
+            _cameraShake.Shake();
+        }
+
 
         // activate and upgrade neighbor factories
         foreach (Vector2Int offset in pattern)

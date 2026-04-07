@@ -4,6 +4,10 @@ public class Factory : MonoBehaviour
 {
     [SerializeField] private FactoryData _data;
     [SerializeField] private ResourcePopup _resourcePopupPrefab;
+    
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem _upgradeEffectPrefab;
+    [SerializeField] private Vector3 _upgradeEffectOffset = new Vector3(0f, 0.5f, 0f);
 
     //not exploit the same combo
     private bool _comboCompleted = false;
@@ -111,6 +115,7 @@ public class Factory : MonoBehaviour
         {
             _level++;
             ApplyCurrentLevelVisuals();
+            SpawnUpgradeEffect();
             Debug.Log($"{name} upgraded to level {_level + 1}");
         }
         else
@@ -192,4 +197,16 @@ public class Factory : MonoBehaviour
     {
         _comboCompleted = true;
     }
+
+    void SpawnUpgradeEffect()
+{
+    if (_upgradeEffectPrefab == null) return;
+
+    ParticleSystem effect = Instantiate(
+        _upgradeEffectPrefab,
+        transform.position + _upgradeEffectOffset,
+        Quaternion.identity
+    );
+
+}
 }
