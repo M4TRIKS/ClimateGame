@@ -287,9 +287,9 @@ MonoBehaviour:
   _gridManager: {fileID: 1462486077}
   _selectedEvent: 1
   _fireStartDelay: 20.4
-  _fireSpreadDelay: 13.8
+  _fireSpreadDelay: 12
   _floodStartDelay: 19.1
-  _floodSpreadDelay: 14
+  _floodSpreadDelay: 13
 --- !u!4 &94855629
 Transform:
   m_ObjectHideFlags: 0
@@ -2317,10 +2317,10 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   _dragScaleMultiplier: 0.8
   _dragAlpha: 0.92
-  _followSmoothness: 118.5
-  _maxTiltAngle: 70
-  _tiltStrength: 5.92
-  _rotationSmoothness: 13.12
+  _followSmoothness: 157.5
+  _maxTiltAngle: 130
+  _tiltStrength: 8.8
+  _rotationSmoothness: 17
 --- !u!82 &712747752
 AudioSource:
   m_ObjectHideFlags: 0

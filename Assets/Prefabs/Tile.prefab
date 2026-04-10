@@ -141,7 +141,7 @@ MonoBehaviour:
   - {fileID: -822796265, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
   - {fileID: 1390858779, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
   - {fileID: -408855616, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  _waterFrameRate: 0.3
+  _waterFrameRate: 0.4
   _grassColor: {r: 0.07332146, g: 0.49685526, b: 0.017186759, a: 1}
   _waterColor: {r: 0, g: 0.5338557, b: 1, a: 1}
   _sandColor: {r: 0.5647059, g: 0.6757776, b: 0.017166913, a: 1}
@@ -271,7 +271,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -645564855
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.14509805}
@@ -358,7 +358,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -645564855
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0.93699515, b: 0.10196078, a: 0.40392157}
