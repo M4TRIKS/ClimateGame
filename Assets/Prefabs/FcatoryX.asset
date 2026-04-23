@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
   m_Name: FcatoryX
   m_EditorClassIdentifier: 
+  factoryName: Textile Dyeing Factory
+  factoryDescription: "17 to 20 percent of industrial \nwater pollution globally."
+  tooltipSprite: {fileID: 0}
   comboPattern:
   - {x: 1, y: -1}
   - {x: -1, y: -1}
@@ -21,12 +24,27 @@ MonoBehaviour:
   - baseProduction: 9
     cooldown: 9.8
     comboMultiplier: 0
-    sprite: {fileID: 5105663231041709718, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    animationFrames: []
-    animationFrameRate: 0.2
+    sprite: {fileID: 4319473644881909220, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    animationFrames:
+    - {fileID: 4319473644881909220, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: -5203168074988669072, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 653738892317444895, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 5394363070041242821, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: -837909468492134978, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 287467493723756107, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 8120242772223675896, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 8720130786753093878, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    animationFrameRate: 0.1
   - baseProduction: 25
-    cooldown: 5.25
+    cooldown: 6
     comboMultiplier: 1.14
-    sprite: {fileID: -4520719955077724263, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    animationFrames: []
-    animationFrameRate: 0.2
+    sprite: {fileID: 4319473644881909220, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    animationFrames:
+    - {fileID: 4319473644881909220, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: -5203168074988669072, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 653738892317444895, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 5394363070041242821, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: -837909468492134978, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 287467493723756107, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    - {fileID: 8120242772223675896, guid: 7bec32e3fcade9649aea07a7d1f045e3, type: 3}
+    animationFrameRate: 0.05

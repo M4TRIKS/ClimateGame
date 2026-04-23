@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
   m_Name: FactoryT
   m_EditorClassIdentifier: 
+  factoryName: Coal Smelter
+  factoryDescription: "Releasing significant amounts of toxic gases, heavy\nmetals,
+    and particulate matter into the air, water, \nand ground ARE THE 40% of global
+    fossil fuel."
+  tooltipSprite: {fileID: 0}
   comboPattern:
   - {x: 0, y: 1}
   - {x: -1, y: 1}
@@ -20,20 +25,28 @@ MonoBehaviour:
   - baseProduction: 11
     cooldown: 5
     comboMultiplier: 2
-    sprite: {fileID: -6281049885481853343, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    sprite: {fileID: 5712251886588027995, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
     animationFrames:
-    - {fileID: -6281049885481853343, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: 8476512160897168313, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: -5091644636579111271, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: -4290488542257015945, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    animationFrameRate: 0.2
+    - {fileID: 5712251886588027995, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 1008392305141341714, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -4391597208301688081, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -4876337324983947992, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 2119129525775696254, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -7142513880547085297, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 1404505988788374193, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -1229744432871175151, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    animationFrameRate: 0.1
   - baseProduction: 15
     cooldown: 4.75
     comboMultiplier: 0.46
-    sprite: {fileID: -9095717837082945937, guid: 85eec5c5401a87143adb3c6d4b968c4c, type: 3}
+    sprite: {fileID: 5712251886588027995, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
     animationFrames:
-    - {fileID: -3406149515323222863, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: 4585277888084770324, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: -7412683057905488127, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    - {fileID: -4851167732818580324, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
-    animationFrameRate: 0.2
+    - {fileID: 5712251886588027995, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 1008392305141341714, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -4391597208301688081, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -4876337324983947992, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 2119129525775696254, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -7142513880547085297, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: 1404505988788374193, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    - {fileID: -1229744432871175151, guid: d5da49fa5616fa44fad01ccd917cdff8, type: 3}
+    animationFrameRate: 0.05

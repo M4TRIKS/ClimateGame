@@ -133,16 +133,25 @@ MonoBehaviour:
   _pollutionSprites:
   - {fileID: 1264146279, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
   _fireAnimationFrames:
-  - {fileID: -465632928, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -585592271, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 2073618738, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  _fireFrameRate: 0.6
+  - {fileID: 8131116456512570694, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: 4362587167325486644, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: 460842227614921511, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: -5109807276771375499, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: -6841924725647247241, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: -2802440766074327394, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: 8693874115228425501, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  - {fileID: -7704181657071206877, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
+  _fireFrameRate: 0.1
   _waterAnimationFrames:
-  - {fileID: -1016736881, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -822796265, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1390858779, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -408855616, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  _waterFrameRate: 0.4
+  - {fileID: -9171819887739478639, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: 1143784985, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: -631249881, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: 1163136704, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: -2126120610, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: 1396386787, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: 1895435743, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  - {fileID: 902711692, guid: 746dfdaaec7f7b44f9dad9253057426e, type: 3}
+  _waterFrameRate: 0.1
   _grassColor: {r: 0.07332146, g: 0.49685526, b: 0.017186759, a: 1}
   _waterColor: {r: 0, g: 0.5338557, b: 1, a: 1}
   _sandColor: {r: 0.5647059, g: 0.6757776, b: 0.017166913, a: 1}
@@ -286,8 +295,8 @@ SpriteRenderer:
   m_SortingLayerID: -645564855
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.14509805}
+  m_Sprite: {fileID: -1089611559320900891, guid: 810c45ada9536904bbb0ab7b96a55432, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -373,8 +382,8 @@ SpriteRenderer:
   m_SortingLayerID: -645564855
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.93699515, b: 0.10196078, a: 0.40392157}
+  m_Sprite: {fileID: -1248568728670202470, guid: 0a67e4b9c9db7bf43a1fa4626323bbd9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

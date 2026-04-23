@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
+  m_Name: FactoryL
+  m_EditorClassIdentifier: 
+  factoryName: Chemical Factory
+  factoryDescription: 'Responsible for producing hazardous chemicals and
+
+    toxic
+    waste, often termed toxic chemical pollution.'
+  tooltipSprite: {fileID: 0}
+  comboPattern:
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: 1, y: 0}
+  - {x: 2, y: 0}
+  levels:
+  - baseProduction: 2
+    cooldown: 2
+    comboMultiplier: 0
+    sprite: {fileID: -2237769706705642157, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    animationFrames:
+    - {fileID: -2237769706705642157, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 932621078, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1580870822, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1670911303, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1001337048, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: -1251390869, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1773248903, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1597549801, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    animationFrameRate: 0.1
+  - baseProduction: 3
+    cooldown: 1.5
+    comboMultiplier: 1.1
+    sprite: {fileID: -2237769706705642157, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    animationFrames:
+    - {fileID: -2237769706705642157, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 932621078, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1580870822, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1580870822, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1670911303, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1001337048, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: -1251390869, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1773248903, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    - {fileID: 1597549801, guid: 927af00b83df8044c808813f0a939e67, type: 3}
+    animationFrameRate: 0.05

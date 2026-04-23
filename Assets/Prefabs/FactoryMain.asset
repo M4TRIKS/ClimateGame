@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eacc010ffdadbbe44bf841b25e665af3, type: 3}
+  m_Name: FactoryMain
+  m_EditorClassIdentifier: 
+  factoryName: Plastic Factory
+  factoryDescription: "The sector responsible for 1.8 billion tonnes of\ngreenhouse
+    gas.  Having 3.4% of total global\n emissions"
+  tooltipSprite: {fileID: 0}
+  comboPattern: []
+  levels:
+  - baseProduction: 5
+    cooldown: 4
+    comboMultiplier: 1
+    sprite: {fileID: 3430331909448472241, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    animationFrames:
+    - {fileID: 98321614, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -2090362215, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -975188726, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -653733582, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: 414665183, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -1178873826, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -1602099965, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    animationFrameRate: 0.1
+  - baseProduction: 7
+    cooldown: 3.4
+    comboMultiplier: 2
+    sprite: {fileID: 7118597445687480032, guid: 68572ba6a990eb8419a5bdacb09abf8e, type: 3}
+    animationFrames:
+    - {fileID: 3430331909448472241, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: 98321614, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -2090362215, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -975188726, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -653733582, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: 414665183, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -1178873826, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    - {fileID: -1602099965, guid: 90d09a005ec97c64aaa2b5ed27726bbd, type: 3}
+    animationFrameRate: 0.05
