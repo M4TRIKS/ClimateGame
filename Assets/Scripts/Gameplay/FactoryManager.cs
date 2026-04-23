@@ -16,10 +16,10 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] private float _dragScaleMultiplier = 0.8f;
     [SerializeField] private float _dragAlpha = 0.6f;
     [Header("Drag Motion")]
-    [SerializeField] private float _followSmoothness = 15f;
-    [SerializeField] private float _maxTiltAngle = 15f;
-    [SerializeField] private float _tiltStrength = 2f;
-    [SerializeField] private float _rotationSmoothness = 10f;
+    [SerializeField] private float _followSmoothness = 157.5f;
+    [SerializeField] private float _maxTiltAngle = 130f;
+    [SerializeField] private float _tiltStrength = 8.8f;
+    [SerializeField] private float _rotationSmoothness = 17f;
 
 
     private Vector3 _originalScale;
