@@ -102,10 +102,47 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        if (!tile.CanBuild()) return false;
+        if (tile.IsBuilt())
+        {
+            TooltipUI.Hide_Static();
+            TooltipWarningUI.Show_Static(
+                "This tile is already occupied!",
+                TooltipWarningUI.WarningType.Occupied,
+                1.2f
+            );
+            return false;
+        }
+
+        if (tile.GetTileType() == TileType.Water)
+        {
+            TooltipUI.Hide_Static();
+            TooltipWarningUI.Show_Static(
+                "You cannot build on water!",
+                TooltipWarningUI.WarningType.Water,
+                1.2f
+            );
+            return false;
+        }
+
+        if (tile.GetTileType() == TileType.Fire)
+        {
+            TooltipUI.Hide_Static();
+            TooltipWarningUI.Show_Static(
+                "You cannot build on fire!",
+                TooltipWarningUI.WarningType.Fire,
+                1.2f
+            );
+            return false;
+        }
 
         if (_resources < _factoryCost)
         {
+            TooltipUI.Hide_Static();
+            TooltipWarningUI.Show_Static(
+                $"Not enough money! Need {_factoryCost}$",
+                TooltipWarningUI.WarningType.NotEnoughMoney,
+                1.2f
+            );
             Debug.Log("Not enough resources");
             return false;
         }
@@ -124,7 +161,7 @@ public class GameManager : MonoBehaviour
         // apply pollution after build
         if (_pollutionManager != null)
         {
-            _pollutionManager.ApplyFactoryPollution(tile, 0.025f); // should I add more pollution?
+            _pollutionManager.ApplyFactoryPollution(tile, 0.025f);
         }
 
         return true;
@@ -222,5 +259,15 @@ public class GameManager : MonoBehaviour
     public static int GetCurrentRound()
     {
         return s_currentRound;
+    }
+
+        public bool CanAffordFactory()
+    {
+        return _resources >= _factoryCost;
+    }
+
+    public int GetFactoryCost()
+    {
+        return _factoryCost;
     }
 }

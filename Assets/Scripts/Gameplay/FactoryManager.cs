@@ -21,7 +21,8 @@ public class FactoryManager : MonoBehaviour
     [SerializeField] private float _tiltStrength = 8.8f;
     [SerializeField] private float _rotationSmoothness = 17f;
 
-
+    public static bool IsDraggingFactory { get; private set; }
+    private bool _showingFullPreviewTooltip = false;
     private Vector3 _originalScale;
     private Color _originalColor;
     private Quaternion _originalRotation;
@@ -106,8 +107,21 @@ public class FactoryManager : MonoBehaviour
     {
         if (IsInputBlocked()) return;
 
+        if (_gameManager != null && !_gameManager.CanAffordFactory())
+        {
+            TooltipUI.Hide_Static();
+            TooltipWarningUI.Show_Static(
+                $"Not enough money! Need {_gameManager.GetFactoryCost()}$",
+                TooltipWarningUI.WarningType.NotEnoughMoney,
+                1.2f
+            );
+            return;
+        }
+
         _dragging = true;
+        IsDraggingFactory = true;
         ApplyDragVisuals(true);
+        TooltipUI.Hide_Static();
         ClearComboPreview();
 
         if (_source != null && _pickUpClip != null)
@@ -116,13 +130,9 @@ public class FactoryManager : MonoBehaviour
         _offset = GetMousePos() - (Vector2)transform.position;
         _lastMouseWorldPos = GetMousePos();
 
-
-        // disable collider while dragging
         if (_collider != null)
             _collider.enabled = false;
-
     }
-
     void OnMouseUp()
     {
         if (IsInputBlocked())
@@ -137,6 +147,8 @@ public class FactoryManager : MonoBehaviour
         // return draggable object to original place
         transform.position = _originalPosition;
         _dragging = false;
+        IsDraggingFactory = false;
+        TooltipUI.Hide_Static();
         ApplyDragVisuals(false);
         
 
@@ -277,6 +289,8 @@ public class FactoryManager : MonoBehaviour
         ClearComboPreview();
         transform.position = _originalPosition;
         _dragging = false;
+        IsDraggingFactory = false;
+        TooltipUI.Hide_Static();
         ApplyDragVisuals(false);
 
         if (_collider != null)
@@ -303,5 +317,119 @@ public class FactoryManager : MonoBehaviour
 
     }
 }
+/// <summary>
+/// ///////////// To show the data before building
+/// </summary>
+/// <returns></returns>
+    void OnMouseEnter()
+    {
+        if (_dragging) return;
+        if (TooltipWarningUI.IsShowing) return;
+
+        _showingFullPreviewTooltip = false;
+        ShowShortPreviewTooltip();
+    }
+
+    void OnMouseExit()
+    {
+        _showingFullPreviewTooltip = false;
+        TooltipUI.Hide_Static();
+    }
+
+    void OnMouseOver()
+    {
+        if (_dragging) return;
+        if (TooltipWarningUI.IsShowing) return;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            _showingFullPreviewTooltip = true;
+            TooltipUI.Show_Static(GetCurrentFactoryTooltipData());
+        }
+}
+    TooltipData GetCurrentFactoryTooltipData()
+    {
+        if (_currentFactoryData == null)
+            return new TooltipData("Factory", "No information available");
+
+        FactoryLevelData levelData = null;
+
+        if (_currentFactoryData.levels != null && _currentFactoryData.levels.Length > 0)
+            levelData = _currentFactoryData.levels[0];
+
+        string description = string.IsNullOrEmpty(_currentFactoryData.factoryDescription)
+            ? "No description"
+            : _currentFactoryData.factoryDescription;
+
+        string comboPatternText = GetComboPatternText(_currentFactoryData.comboPattern);
+
+        string body = description;
+
+        if (levelData != null)
+        {
+            body += "\n\n" +
+                    $"<b>Level:</b> 1\n" +
+                    $"<b>Base Production:</b> {levelData.baseProduction}\n" +
+                    $"<b>Cooldown:</b> {levelData.cooldown:0.##}s\n" +
+                    $"<b>Combo Multiplier:</b> x{levelData.comboMultiplier:0.##}\n" +
+                    $"<b>Combo Pattern:</b> {comboPatternText}";
+        }
+        else
+        {
+            body += "\n\n" +
+                    $"<b>Combo Pattern:</b> {comboPatternText}";
+        }
+
+        Sprite icon = _currentFactoryData.tooltipSprite;
+
+        if (icon == null &&
+            _currentFactoryData.levels != null &&
+            _currentFactoryData.levels.Length > 0 &&
+            _currentFactoryData.levels[0].sprite != null)
+        {
+            icon = _currentFactoryData.levels[0].sprite;
+        }
+
+        string title = string.IsNullOrEmpty(_currentFactoryData.factoryName)
+            ? "Factory"
+            : _currentFactoryData.factoryName;
+
+        return new TooltipData(title, body, icon);
+    }
+    string GetComboPatternText(Vector2Int[] pattern)
+{
+    if (pattern == null || pattern.Length == 0)
+        return "None";
+
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+    for (int i = 0; i < pattern.Length; i++)
+    {
+        sb.Append($"({pattern[i].x}, {pattern[i].y})");
+
+        if (i < pattern.Length - 1)
+            sb.Append(", ");
+    }
+
+    return sb.ToString();
+}
+void ShowShortPreviewTooltip()
+{
+    if (_currentFactoryData == null)
+    {
+        TooltipUI.Show_Static(new TooltipData("Factory", "Right click for more info"));
+        return;
+    }
+
+    string title = string.IsNullOrEmpty(_currentFactoryData.factoryName)
+        ? "Factory"
+        : _currentFactoryData.factoryName;
+
+    TooltipUI.Show_Static(new TooltipData(
+        title,
+        "<i>Right click info</i>"
+    ));
+}
+
 
 }

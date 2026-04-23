@@ -209,4 +209,25 @@ public class Factory : MonoBehaviour
     );
 
 }
+
+/////helpers for the tooltip
+public FactoryData GetData()
+{
+    return _data;
+}
+
+public int GetLevel()
+{
+    return _level + 1;
+}
+
+public int GetTileBonusPublic()
+{
+    return _tileBonus;
+}
+
+public FactoryLevelData GetCurrentLevelDataPublic()
+{
+    return GetCurrentLevelData();
+}
 }

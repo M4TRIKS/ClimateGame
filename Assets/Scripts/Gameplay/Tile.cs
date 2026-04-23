@@ -47,6 +47,8 @@ public class Tile : MonoBehaviour
     [SerializeField] private ParticleSystem _buildEffectPrefab;
     [SerializeField] private Vector3 _buildEffectOffset = Vector3.zero;
 
+    private TileTooltipInfo _tileTooltipInfo;
+
     private bool _isBuilt = false;
     private GameObject _currentBuilding;
     private Vector2Int _gridPosition;
@@ -78,6 +80,7 @@ public class Tile : MonoBehaviour
 
     public void Init(TileType type, Vector2Int pos)
     {
+        _tileTooltipInfo = GetComponent<TileTooltipInfo>();
         _tileType = type;
         _gridPosition = pos;
 
@@ -101,12 +104,19 @@ public class Tile : MonoBehaviour
     {
         if (_highlight != null)
             _highlight.SetActive(true);
+            ShowTooltip();
     }
 
     void OnMouseExit()
     {
         if (_highlight != null)
             _highlight.SetActive(false);
+    TooltipUI.Hide_Static();
+
+    }
+    void OnMouseDown()
+    {
+        TooltipUI.Hide_Static();
     }
 
     ////////////// BUILDING
@@ -371,4 +381,22 @@ public class Tile : MonoBehaviour
     );
 
 }
+/// <summary>
+/// ////////////////////////////////////// testing tool tip
+/// </summary>
+
+//*
+ void ShowTooltip()
+    {
+        if (FactoryManager.IsDraggingFactory)
+            return;
+
+        if (CurrentFactory != null)
+            return;
+
+        if (_tileTooltipInfo != null)
+        {
+            TooltipUI.Show_Static(_tileTooltipInfo.GetTooltipData());
+        }
+    }  //*/
 }
