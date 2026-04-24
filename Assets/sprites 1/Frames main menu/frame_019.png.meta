@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: 7302b09f95a964845943adadda0aac4f
+guid: 53cb0fa05f359ff4097bf7975e2850dd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1207738948660519709
-    second: tiles-Sheet-Sheet-Sheet_0
-  - first:
-      213: -1452321662765205958
-    second: tiles-Sheet-Sheet-Sheet_1
-  - first:
-      213: 5373596784388318301
-    second: tiles-Sheet-Sheet-Sheet_2
-  - first:
-      213: 2017238446703213818
-    second: tiles-Sheet-Sheet-Sheet_3
-  - first:
-      213: 2778285163455461138
-    second: tiles-Sheet-Sheet-Sheet_4
+      213: -8161875296251981334
+    second: frame_019_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -63,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tiles-Sheet-Sheet-Sheet_0
+      name: frame_019_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 427
-        width: 74
-        height: 74
+        x: 0
+        y: 0
+        width: 1144
+        height: 640
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d136058cc20c2c010800000000000000
-      internalID: 1207738948660519709
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles-Sheet-Sheet-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 159
-        y: 415
-        width: 98
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a367647742158dbe0800000000000000
-      internalID: -1452321662765205958
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles-Sheet-Sheet-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 287
-        y: 415
-        width: 98
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d54a5ab0ec9d29a40800000000000000
-      internalID: 5373596784388318301
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles-Sheet-Sheet-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 159
-        y: 319
-        width: 66
-        height: 66
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: afc7103fdabaefb10800000000000000
-      internalID: 2017238446703213818
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles-Sheet-Sheet-Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 255
-        y: 319
-        width: 130
-        height: 66
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 217308cd2a37e8620800000000000000
-      internalID: 2778285163455461138
+      spriteID: ae15dd959a13bbe80800000000000000
+      internalID: -8161875296251981334
       vertices: []
       indices: 
       edges: []
@@ -248,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tiles-Sheet-Sheet-Sheet_0: 1207738948660519709
-      tiles-Sheet-Sheet-Sheet_1: -1452321662765205958
-      tiles-Sheet-Sheet-Sheet_2: 5373596784388318301
-      tiles-Sheet-Sheet-Sheet_3: 2017238446703213818
-      tiles-Sheet-Sheet-Sheet_4: 2778285163455461138
+      frame_019_0: -8161875296251981334
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

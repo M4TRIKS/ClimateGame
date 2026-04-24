@@ -108,30 +108,13 @@ MonoBehaviour:
   _renderer: {fileID: 2746000139834899107}
   _highlight: {fileID: 3189567700636704219}
   _grassSprites:
-  - {fileID: 1171007922, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 2017238446703213818, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 2778285163455461138, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1603453909, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1603453909, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1958424850, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 592726919, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -867929855, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 2132752973, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1182830103, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -9205980483787862885, guid: 044cbe03dda2c424ab9911fc34989e57, type: 3}
   _sandSprites:
-  - {fileID: 162951347, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -1822743120, guid: 044cbe03dda2c424ab9911fc34989e57, type: 3}
   _rockSprites:
-  - {fileID: 815383431, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -690259450, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 943227272, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 400682076, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 1552461470, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -920308584, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 293328398, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: 781237749, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
-  - {fileID: -1495083546, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: -1658220643, guid: 044cbe03dda2c424ab9911fc34989e57, type: 3}
   _pollutionSprites:
-  - {fileID: 1264146279, guid: 39f7a3bc759f2d441a1f03c24cab28c9, type: 3}
+  - {fileID: 1545608145, guid: 044cbe03dda2c424ab9911fc34989e57, type: 3}
   _fireAnimationFrames:
   - {fileID: 8131116456512570694, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}
   - {fileID: 4362587167325486644, guid: 54b09691b5469dc4cbca80b24468b1c1, type: 3}

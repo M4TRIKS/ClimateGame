@@ -107,7 +107,8 @@ public class FactoryManager : MonoBehaviour
     {
         if (IsInputBlocked()) return;
 
-        if (_gameManager != null && !_gameManager.CanAffordFactory())
+   /*   It feels better if the player is able to drag it even with not enough money
+      if (_gameManager != null && !_gameManager.CanAffordFactory())
         {
             TooltipUI.Hide_Static();
             TooltipWarningUI.Show_Static(
@@ -116,7 +117,7 @@ public class FactoryManager : MonoBehaviour
                 1.2f
             );
             return;
-        }
+        } */
 
         _dragging = true;
         IsDraggingFactory = true;
