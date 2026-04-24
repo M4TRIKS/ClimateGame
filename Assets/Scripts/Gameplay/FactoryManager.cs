@@ -36,6 +36,8 @@ public class FactoryManager : MonoBehaviour
     private FactoryData _currentFactoryData;
     private readonly List<Tile> _previewTiles = new List<Tile>();
 
+    private Tile _currentHoverTile;
+
     void Awake()
     {
         _originalPosition = transform.position;
@@ -100,6 +102,7 @@ public class FactoryManager : MonoBehaviour
         _lastMouseWorldPos = currentMouseWorldPos;
 
         UpdateComboPreview();
+        UpdateTileHoverWhileDragging();
     }
     
 
@@ -144,6 +147,7 @@ public class FactoryManager : MonoBehaviour
 
         SpawnFactories();
         ClearComboPreview();
+        ClearTileHoverWhileDragging();
 
         // return draggable object to original place
         transform.position = _originalPosition;
@@ -288,6 +292,7 @@ public class FactoryManager : MonoBehaviour
     void CancelDrag()
     {
         ClearComboPreview();
+        ClearTileHoverWhileDragging();
         transform.position = _originalPosition;
         _dragging = false;
         IsDraggingFactory = false;
@@ -296,6 +301,7 @@ public class FactoryManager : MonoBehaviour
 
         if (_collider != null)
             _collider.enabled = true;
+    
     }
 
     void ApplyDragVisuals(bool isDragging)
@@ -430,6 +436,39 @@ void ShowShortPreviewTooltip()
         title,
         "<i>Right click info</i>"
     ));
+}
+
+
+//fixing the  highlight so it workings directly from factory
+
+void UpdateTileHoverWhileDragging()
+{
+    Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+    int x = Mathf.RoundToInt(mouseWorldPos.x);
+    int y = Mathf.RoundToInt(mouseWorldPos.y);
+
+    Tile tileUnderMouse = _gridManager.GetTileAtPosition(new Vector2Int(x, y));
+
+    if (tileUnderMouse == _currentHoverTile)
+        return;
+
+    if (_currentHoverTile != null)
+        _currentHoverTile.SetHoverHighlight(false);
+
+    _currentHoverTile = tileUnderMouse;
+
+    if (_currentHoverTile != null)
+        _currentHoverTile.SetHoverHighlight(true);
+}
+
+void ClearTileHoverWhileDragging()
+{
+    if (_currentHoverTile != null)
+    {
+        _currentHoverTile.SetHoverHighlight(false);
+        _currentHoverTile = null;
+    }
 }
 
 

@@ -12,6 +12,7 @@ public class RandomEventManager : MonoBehaviour
     }
 
     [Header("References")]
+    [SerializeField] private EventWarningUI _eventWarningUI;
     [SerializeField] private GridManager _gridManager;
 
     [Header("Event Settings")]
@@ -58,14 +59,21 @@ public class RandomEventManager : MonoBehaviour
         else if (_selectedEvent == EventType.Flood)
         {
             yield return new WaitForSeconds(_floodStartDelay);
+            if (_eventWarningUI != null)
+            _eventWarningUI.ShowEventWarning(EventType.Flood);
+            //why did I use coroutine here but not in fireEvent?
             StartCoroutine(SpreadFloodRoutine());
         }
     }
 
     void StartFireEvent()
     {
+ 
         if (_eventStarted) return;
         _eventStarted = true;
+        if (_eventWarningUI != null)
+        _eventWarningUI.ShowEventWarning(EventType.Fire);
+        
 
         Tile firstFireTile = GetRandomValidFireStartTile();
 

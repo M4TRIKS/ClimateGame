@@ -2529,7 +2529,7 @@ GameObject:
   - component: {fileID: 769916503}
   - component: {fileID: 769916505}
   m_Layer: 5
-  m_Name: DarkBackground (1)
+  m_Name: animation background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

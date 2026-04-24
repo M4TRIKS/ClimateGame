@@ -399,4 +399,11 @@ public class Tile : MonoBehaviour
             TooltipUI.Show_Static(_tileTooltipInfo.GetTooltipData());
         }
     }  //*/
+
+//send highlight to the factory manager
+    public void SetHoverHighlight(bool active)
+{
+    if (_highlight != null)
+        _highlight.SetActive(active);
+}
 }

@@ -9,6 +9,7 @@ public class Factory : MonoBehaviour
     [SerializeField] private ParticleSystem _upgradeEffectPrefab;
     [SerializeField] private Vector3 _upgradeEffectOffset = new Vector3(0f, 0.5f, 0f);
 
+
     //not exploit the same combo
     private bool _comboCompleted = false;
 
@@ -18,6 +19,12 @@ public class Factory : MonoBehaviour
     private bool _comboActive = false;
     private GameManager _gameManager;
 
+private FactoryIndicatorUI _indicatorUI;
+
+    void Awake()
+    {
+        _indicatorUI = GetComponent<FactoryIndicatorUI>();
+    }
     public void Init(int tileBonus)
     {
         _tileBonus = tileBonus;
@@ -29,6 +36,7 @@ public class Factory : MonoBehaviour
         }
 
         ApplyCurrentLevelVisuals();
+        CheckPollutionIndicator();
     }
 
     void Update()
@@ -116,6 +124,8 @@ public class Factory : MonoBehaviour
             _level++;
             ApplyCurrentLevelVisuals();
             SpawnUpgradeEffect();
+            if (_indicatorUI != null)
+            _indicatorUI.ShowUpgradeArrow();
             Debug.Log($"{name} upgraded to level {_level + 1}");
         }
         else
@@ -229,5 +239,38 @@ public int GetTileBonusPublic()
 public FactoryLevelData GetCurrentLevelDataPublic()
 {
     return GetCurrentLevelData();
+}
+
+/// <summary>
+/// tooltip name
+/// </summary>
+/// <returns></returns>
+    public string GetDisplayName()
+    {
+        Tile tile = GetComponentInParent<Tile>();
+
+        // if factory is on polluted tile
+        if (tile != null && tile.GetTileType() == TileType.Pollution)
+            return "POLLUTED FACTORY";
+
+        // normal name
+        if (_data != null && !string.IsNullOrEmpty(_data.factoryName))
+            return _data.factoryName;
+
+        return "Factory";
+    }
+/// arrows
+
+void CheckPollutionIndicator()
+{
+    Tile tile = GetComponentInParent<Tile>();
+
+    if (tile == null) return;
+
+    if (tile.GetTileType() == TileType.Pollution)
+    {
+        if (_indicatorUI != null)
+            _indicatorUI.ShowPollutionArrow();
+    }
 }
 }

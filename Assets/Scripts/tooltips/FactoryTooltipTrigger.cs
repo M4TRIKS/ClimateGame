@@ -63,9 +63,11 @@ public class FactoryTooltipTrigger : MonoBehaviour
             ? "Factory"
             : _factory.GetData().factoryName;
 
+        Factory factory = GetComponent<Factory>();
+
         TooltipUI.Show_Static(new TooltipData(
-            title,
-            "<i>Right click info</i>"
+            factory.GetDisplayName(),
+            "<i>Right click for more info</i>"
         ));
     }
 

@@ -10,14 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8615117017696655975}
   - component: {fileID: 1036240189316921713}
-  - component: {fileID: 8156303072544855738}
-  - component: {fileID: 1126636349748572411}
-  - component: {fileID: -2904609435046379568}
-  - component: {fileID: 419089831757599104}
   - component: {fileID: 2033550369202220401}
-  - component: {fileID: -5966356144662339341}
   m_Layer: 4
-  m_Name: FactoryPrefab
+  m_Name: FactoryDraggablePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,59 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8156303072544855738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818273969948880095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f222020bb08af8344825772d301649bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data: {fileID: 0}
-  _resourcePopupPrefab: {fileID: 1672658811675060303, guid: 3c004065153d35840ae57e3d956010ef, type: 3}
-  _upgradeEffectPrefab: {fileID: 2380892273047561466, guid: caa4b02ce624cd34eb07e37c40585b8c, type: 3}
-  _upgradeEffectOffset: {x: 0, y: 0, z: 0}
---- !u!114 &1126636349748572411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818273969948880095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed80a18a281ed1a43b198d4a2c8b91c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderer: {fileID: 1036240189316921713}
---- !u!114 &-2904609435046379568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818273969948880095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727db6841c824b841924a1f3d775be47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &419089831757599104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818273969948880095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 670414e89f006d14fb0e4b3b54982a13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &2033550369202220401
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -192,19 +134,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5966356144662339341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7818273969948880095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3b4963565f63a48be6f66a284c4611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _upgradeArrowPrefab: {fileID: 5619349482753268821, guid: 1c1c48aab8dab2846acd4e7ecb1c0679, type: 3}
-  _pollutionArrowPrefab: {fileID: 4736963059501612047, guid: 4d4a8d6a74abfe041b5b1ac51f7ba042, type: 3}
-  _upgradeArrowOffset: {x: 0.35, y: 0.35, z: 0}
-  _pollutionArrowOffset: {x: 0.35, y: -0.35, z: 0}
