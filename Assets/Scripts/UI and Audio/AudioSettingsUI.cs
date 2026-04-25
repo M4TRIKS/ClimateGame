@@ -1,30 +1,37 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class AudioSettingsUI : MonoBehaviour
 {
-    [SerializeField] private Slider _volumeSlider;
+    [SerializeField] private AudioMixer _mixer;
+    [SerializeField] private Slider _masterSlider;
+    [SerializeField] private Slider _musicSlider;
 
     void Start()
     {
-        // load saved volume, default 1
-        float savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        AudioListener.volume = savedVolume;
-
-        if (_volumeSlider != null)
-        {
-            _volumeSlider.value = savedVolume;
-
-            // update volume when slider changes
-            _volumeSlider.onValueChanged.AddListener(SetVolume);
-        }
+        SetupSlider(_masterSlider, "MasterVolume", "MasterSave");
+        SetupSlider(_musicSlider, "MusicVolume", "MusicSave");
     }
 
-    public void SetVolume(float value)
+    void SetupSlider(Slider slider, string parameter, string saveKey)
     {
-        // apply and save volume
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat("MasterVolume", value);
-        PlayerPrefs.Save();
+        float value = PlayerPrefs.GetFloat(saveKey, 1f);
+
+        slider.value = value;
+        SetVolume(parameter, value);
+
+        slider.onValueChanged.AddListener(v =>
+        {
+            SetVolume(parameter, v);
+            PlayerPrefs.SetFloat(saveKey, v);
+            PlayerPrefs.Save();
+        });
+    }
+
+    void SetVolume(string parameter, float value)
+    {
+        float db = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        _mixer.SetFloat(parameter, db);
     }
 }

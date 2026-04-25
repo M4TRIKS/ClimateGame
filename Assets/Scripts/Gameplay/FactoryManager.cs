@@ -10,6 +10,8 @@ public class FactoryManager : MonoBehaviour
 
     [SerializeField] private FactoryData[] _factoryPool;
     [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer _hoverGlowRenderer;
+    [SerializeField] private GameObject _hoverGlowObject;
     //draging animation
     [Header("Drag Visuals")]
 
@@ -121,6 +123,9 @@ public class FactoryManager : MonoBehaviour
             );
             return;
         } */
+        //highlight
+        if (_hoverGlowObject != null)
+        _hoverGlowObject.SetActive(false);
 
         _dragging = true;
         IsDraggingFactory = true;
@@ -228,6 +233,12 @@ public class FactoryManager : MonoBehaviour
             _currentFactoryData.levels[0].sprite != null)
         {
             _renderer.sprite = _currentFactoryData.levels[0].sprite;
+
+            //highlight will show
+            if (_hoverGlowRenderer != null)
+            {
+                _hoverGlowRenderer.sprite = _renderer.sprite;
+            }
         }
         if (_renderer != null)
         {
@@ -332,6 +343,8 @@ public class FactoryManager : MonoBehaviour
     {
         if (_dragging) return;
         if (TooltipWarningUI.IsShowing) return;
+        if (_hoverGlowObject != null)
+        _hoverGlowObject.SetActive(true);
 
         _showingFullPreviewTooltip = false;
         ShowShortPreviewTooltip();
@@ -341,6 +354,8 @@ public class FactoryManager : MonoBehaviour
     {
         _showingFullPreviewTooltip = false;
         TooltipUI.Hide_Static();
+        if (_hoverGlowObject != null)
+        _hoverGlowObject.SetActive(false);
     }
 
     void OnMouseOver()

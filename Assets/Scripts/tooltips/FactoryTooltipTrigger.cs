@@ -8,9 +8,11 @@ public class FactoryTooltipTrigger : MonoBehaviour
 
     private bool _showingFullTooltip = false;
     private bool _isHovered = false;
-
+    private GridManager _gridManager;
+    private readonly System.Collections.Generic.List<Tile> _comboPreviewTiles = new();
     void Awake()
-    {
+    {   
+        _gridManager = FindFirstObjectByType<GridManager>();
         _factoryTooltipInfo = GetComponent<FactoryTooltipInfo>();
         _factory = GetComponent<Factory>();
     }
@@ -31,6 +33,7 @@ public class FactoryTooltipTrigger : MonoBehaviour
         _isHovered = false;
         _showingFullTooltip = false;
         TooltipUI.Hide_Static();
+        ClearComboPreview();
     }
 
     void OnMouseOver()
@@ -43,6 +46,7 @@ public class FactoryTooltipTrigger : MonoBehaviour
         {
             _showingFullTooltip = true;
             ShowFullTooltip();
+            ShowComboPreview();
         }
     }
 
@@ -78,4 +82,46 @@ public class FactoryTooltipTrigger : MonoBehaviour
             TooltipUI.Show_Static(_factoryTooltipInfo.GetTooltipData());
         }
     }
+
+
+    ///Combo highlights to show 
+    void ShowComboPreview()
+{
+    ClearComboPreview();
+
+    if (_factory == null || _gridManager == null)
+        return;
+
+    Tile centerTile = GetComponentInParent<Tile>();
+    if (centerTile == null)
+        return;
+
+    Vector2Int[] pattern = _factory.GetComboPattern();
+    if (pattern == null || pattern.Length == 0)
+        return;
+
+    Vector2Int centerPos = centerTile.GetGridPosition();
+
+    foreach (Vector2Int offset in pattern)
+    {
+        Tile tile = _gridManager.GetTileAtPosition(centerPos + offset);
+
+        if (tile != null)
+        {
+            tile.ShowComboPreview();
+            _comboPreviewTiles.Add(tile);
+        }
+    }
+}
+
+void ClearComboPreview()
+{
+    for (int i = 0; i < _comboPreviewTiles.Count; i++)
+    {
+        if (_comboPreviewTiles[i] != null)
+            _comboPreviewTiles[i].HideComboPreview();
+    }
+
+    _comboPreviewTiles.Clear();
+}
 }
