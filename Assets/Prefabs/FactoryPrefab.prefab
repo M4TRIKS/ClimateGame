@@ -109,6 +109,8 @@ MonoBehaviour:
   _resourcePopupPrefab: {fileID: 1672658811675060303, guid: 3c004065153d35840ae57e3d956010ef, type: 3}
   _upgradeEffectPrefab: {fileID: 2380892273047561466, guid: caa4b02ce624cd34eb07e37c40585b8c, type: 3}
   _upgradeEffectOffset: {x: 0, y: 0, z: 0}
+  _upgradeClip: {fileID: 8300000, guid: c0679e608de77a04085eab832224c821, type: 3}
+  _upgradeVolume: 1.5
 --- !u!114 &1126636349748572411
 MonoBehaviour:
   m_ObjectHideFlags: 0

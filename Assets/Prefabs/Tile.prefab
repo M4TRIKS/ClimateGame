@@ -144,6 +144,10 @@ MonoBehaviour:
   _buildingPrefab: {fileID: 7818273969948880095, guid: 02359e9fe3ca213459340679dcd58d13, type: 3}
   _buildEffectPrefab: {fileID: 7349930554828649295, guid: 7bc746202f40a8c4584b32e7992e12ac, type: 3}
   _buildEffectOffset: {x: 0, y: 0, z: 0}
+  _waterFloodClip: {fileID: 8300000, guid: c270a1575ef9c274aad09ffe331dbeb7, type: 3}
+  _fireClip: {fileID: 8300000, guid: 42e2d13e5781e96449aeffebead9feae, type: 3}
+  _pollutionClip: {fileID: 8300000, guid: 4116a546d05e6e24a8ab8d69f36f4ab6, type: 3}
+  _eventAudioVolume: 1.5
 --- !u!61 &4345454863306530347
 BoxCollider2D:
   m_ObjectHideFlags: 0

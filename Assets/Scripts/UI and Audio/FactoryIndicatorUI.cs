@@ -15,6 +15,7 @@ public class FactoryIndicatorUI : MonoBehaviour
 
     public void ShowUpgradeArrow()
     {
+        if (IsFactoryPolluted()) return;
         if (_upgradeArrowPrefab == null) return;
 
         if (_upgradeArrowInstance == null)
@@ -34,6 +35,10 @@ public class FactoryIndicatorUI : MonoBehaviour
     {
         if (_pollutionArrowPrefab == null) return;
 
+        // polluted factories should not show upgrade arrow
+        if (_upgradeArrowInstance != null)
+            _upgradeArrowInstance.SetActive(false);
+
         if (_pollutionArrowInstance == null)
         {
             _pollutionArrowInstance = Instantiate(
@@ -45,5 +50,14 @@ public class FactoryIndicatorUI : MonoBehaviour
         }
 
         _pollutionArrowInstance.SetActive(true);
+    }
+
+
+
+    // cancel arrow 
+        bool IsFactoryPolluted()
+    {
+        Tile tile = GetComponentInParent<Tile>();
+        return tile != null && tile.GetTileType() == TileType.Pollution;
     }
 }

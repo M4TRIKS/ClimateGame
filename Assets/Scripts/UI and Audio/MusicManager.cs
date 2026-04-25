@@ -60,7 +60,7 @@ public class MusicManager : MonoBehaviour
         _audio.Play();
     }
 
-    // ⭐ called by pause menu
+    // called by pause menu
     public void PauseGameplayMusic()
     {
         if (_isGameplayScene && _audio.isPlaying)

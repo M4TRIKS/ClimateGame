@@ -9,6 +9,10 @@ public class Factory : MonoBehaviour
     [SerializeField] private ParticleSystem _upgradeEffectPrefab;
     [SerializeField] private Vector3 _upgradeEffectOffset = new Vector3(0f, 0.5f, 0f);
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip _upgradeClip;
+    [SerializeField] private float _upgradeVolume = 1f;
+
 
     //not exploit the same combo
     private bool _comboCompleted = false;
@@ -115,7 +119,7 @@ private FactoryIndicatorUI _indicatorUI;
     {
         if (_data == null || _data.levels == null || _data.levels.Length == 0)
         {
-            Debug.LogError("Factory has no upgrade levels configured!");
+            Debug.LogError("upgrade data missing");
             return;
         }
 
@@ -124,6 +128,7 @@ private FactoryIndicatorUI _indicatorUI;
             _level++;
             ApplyCurrentLevelVisuals();
             SpawnUpgradeEffect();
+            OneShotAudio.Play(_upgradeClip, transform.position, _upgradeVolume);
             if (_indicatorUI != null)
             _indicatorUI.ShowUpgradeArrow();
             Debug.Log($"{name} upgraded to level {_level + 1}");

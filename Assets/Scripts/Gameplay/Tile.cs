@@ -33,7 +33,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private Sprite[] _waterAnimationFrames;
     [SerializeField] private float _waterFrameRate = 0.5f;
 
-    [Header("Fallback Colors")]
+
+//not really necessary now but i will keep them
+    [Header(" Colors (in case dont work)")]
     [SerializeField] private Color _grassColor;
     [SerializeField] private Color _waterColor;
     [SerializeField] private Color _sandColor;
@@ -46,6 +48,13 @@ public class Tile : MonoBehaviour
     [Header("Build Particles")]
     [SerializeField] private ParticleSystem _buildEffectPrefab;
     [SerializeField] private Vector3 _buildEffectOffset = Vector3.zero;
+
+    [Header("Event Audio")]
+    [SerializeField] private AudioClip _waterFloodClip;
+    [SerializeField] private AudioClip _fireClip;
+    [SerializeField] private AudioClip _pollutionClip;
+
+    [SerializeField] private float _eventAudioVolume = 1f;
 
     private TileTooltipInfo _tileTooltipInfo;
 
@@ -68,6 +77,9 @@ public class Tile : MonoBehaviour
 
         _tileType = TileType.Pollution;
         UpdateTileVisual();
+
+        OneShotAudio.Play(_pollutionClip, transform.position, _eventAudioVolume);
+
 
         // Recalculate tile bonus if tile becomes polluted
         if (_isBuilt && CurrentFactory != null)
@@ -238,6 +250,7 @@ public class Tile : MonoBehaviour
 
         _tileType = TileType.Fire;
         UpdateTileVisual();
+        OneShotAudio.Play(_fireClip, transform.position, _eventAudioVolume);
 
         if (_isBuilt)
         {
@@ -266,6 +279,8 @@ public class Tile : MonoBehaviour
 
         _tileType = TileType.Water;
         UpdateTileVisual();
+        //audio 
+        OneShotAudio.Play(_waterFloodClip, transform.position, _eventAudioVolume);
 
         if (_isBuilt)
         {
