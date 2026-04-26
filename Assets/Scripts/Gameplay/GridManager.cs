@@ -51,12 +51,12 @@ public class GridManager : MonoBehaviour
 
             }
         }
-
-        // Move the camera to the center of the grid
+//Moved to camera script
+ /*        // Move the camera to the center of the grid
         _cam.transform.position = new Vector3(
             (float)_width / 2 - 0.5f,
             (float)_height / 2 - 0.1f, -10
-        );
+        ); */
     }
 
     // Returns the tile at a specific grid position 

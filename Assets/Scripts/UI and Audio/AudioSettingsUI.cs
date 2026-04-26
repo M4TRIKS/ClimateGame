@@ -10,28 +10,34 @@ public class AudioSettingsUI : MonoBehaviour
 
     void Start()
     {
-        SetupSlider(_masterSlider, "MasterVolume", "MasterSave");
-        SetupSlider(_musicSlider, "MusicVolume", "MusicSave");
+        float masterValue = PlayerPrefs.GetFloat("MasterVolumeValue", 1f);
+        float musicValue = PlayerPrefs.GetFloat("MusicVolumeValue", 1f);
+
+        _masterSlider.value = masterValue;
+        _musicSlider.value = musicValue;
+
+        SetMasterVolume(masterValue);
+        SetMusicVolume(musicValue);
+
+        _masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        _musicSlider.onValueChanged.AddListener(SetMusicVolume);
     }
 
-    void SetupSlider(Slider slider, string parameter, string saveKey)
+    public void SetMasterVolume(float value)
     {
-        float value = PlayerPrefs.GetFloat(saveKey, 1f);
+        AudioListener.volume = value;
 
-        slider.value = value;
-        SetVolume(parameter, value);
-
-        slider.onValueChanged.AddListener(v =>
-        {
-            SetVolume(parameter, v);
-            PlayerPrefs.SetFloat(saveKey, v);
-            PlayerPrefs.Save();
-        });
+        PlayerPrefs.SetFloat("MasterVolumeValue", value);
+        PlayerPrefs.Save();
     }
 
-    void SetVolume(string parameter, float value)
+    public void SetMusicVolume(float value)
     {
         float db = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
-        _mixer.SetFloat(parameter, db);
+
+        _mixer.SetFloat("MusicVolume", db);
+
+        PlayerPrefs.SetFloat("MusicVolumeValue", value);
+        PlayerPrefs.Save();
     }
 }

@@ -166,7 +166,7 @@ public class FactoryManager : MonoBehaviour
             _collider.enabled = true;
 
         if (_source != null && _dropClip != null)
-            _source.PlayOneShot(_dropClip);
+            _source.PlayOneShot(_dropClip, 4f);
     }
 
     Vector2 GetMousePos()

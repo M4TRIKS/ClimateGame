@@ -4,9 +4,8 @@ public class CameraAutoFit : MonoBehaviour
 {
     [SerializeField] private GridManager _gridManager;
     [SerializeField] private float _padding = 1f;
-/// <summary>
-/// /// check grid manager  _cam to see the position (I know its messy but if it works it works)
-/// </summary>
+    [SerializeField] private float _zPosition = -10f;
+
     void Start()
     {
         FitCamera();
@@ -20,19 +19,20 @@ public class CameraAutoFit : MonoBehaviour
         float gridWidth = _gridManager.Width;
         float gridHeight = _gridManager.Height;
 
-        float screenRatio = (float)Screen.width / Screen.height;
-        float targetRatio = gridWidth / gridHeight;
+        // center camera on grid
+        cam.transform.position = new Vector3(
+            gridWidth / 2f - 0.5f,
+            gridHeight / 2f - 0.5f,
+            _zPosition
+        );
 
-        if (screenRatio >= targetRatio)
-        {
-            // screen is wider, so fit height
-            cam.orthographicSize = gridHeight / 2f + _padding;
-        }
-        else
-        {
-            // screen is taller/narrower, so fit width too
-            float difference = targetRatio / screenRatio;
-            cam.orthographicSize = (gridHeight / 2f * difference) + _padding;
-        }
+        // calculate size needed to fit height
+        float verticalSize = gridHeight / 2f;
+
+        // calculate size needed to fit width
+        float horizontalSize = gridWidth / (2f * cam.aspect);
+
+        // use whichever is bigger, so full grid always fits
+        cam.orthographicSize = Mathf.Max(verticalSize, horizontalSize) + _padding;
     }
 }

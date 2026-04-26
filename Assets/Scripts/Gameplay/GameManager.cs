@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         {
             TooltipUI.Hide_Static();
             TooltipWarningUI.Show_Static(
-                "This tile is already occupied!",
+                "This tile occupied!",
                 TooltipWarningUI.WarningType.Occupied,
                 1.2f
             );
